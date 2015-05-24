@@ -1,0 +1,3 @@
+Assets/MVVM/View/CameraViewControl.xaml
+Assets/MVVM/View/PlaneViewControl.xaml
+Assets/MVVM/View/Resources/Resources.xaml
