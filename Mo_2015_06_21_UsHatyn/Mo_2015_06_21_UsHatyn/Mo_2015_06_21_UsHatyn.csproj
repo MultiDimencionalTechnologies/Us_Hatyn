@@ -116,7 +116,10 @@
     <Folder Include="Fonts\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\MVVM\View\Resources\Fonts\segoeui.ttf" />
+    <Resource Include="Assets\MVVM\View\Resources\Fonts\segoeui.ttf">
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.5\Microsoft.Expression.Blend.WPF.targets" />
