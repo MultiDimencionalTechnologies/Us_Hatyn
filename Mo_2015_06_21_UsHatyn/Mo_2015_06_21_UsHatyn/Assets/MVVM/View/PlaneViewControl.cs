@@ -8,7 +8,6 @@ namespace Mo_2015_06_21_UsHatyn
     {
         public void OnPostInit()
         {
-
         }
     }
 }
