@@ -20,7 +20,7 @@ namespace Mo_2015_06_21_UsHatyn
 
         public class MiniPanel
         {
-            public void ShowMiniPanel(float percentX, float percentY, string titleText)
+            /*public void ShowMiniPanel(float percentX, float percentY, string titleText)
             {
                 HideMiniPanel();
 
@@ -48,6 +48,46 @@ namespace Mo_2015_06_21_UsHatyn
                     setRightTopPosition(percentX, percentY);
                     rightTopShowMiniPanel();
                 }
+            }*/
+            public void ShowMiniPanel(float percentX, float percentY, string titleText, string imageSource, string panelText)
+            {
+                HideMiniPanel();
+
+                if (percentX <= 50f && percentY <= 50f)
+                {
+                    leftBottomSetAboutPanelText(titleText);
+                    setLeftBottomPosition(percentX, percentY);
+                    leftBottomShowMiniPanel();
+                }
+                if (percentX > 50f && percentY <= 50f)
+                {
+                    rightBottomSetAboutPanelText(titleText);
+                    setRightBottomPosition(percentX, percentY);
+                    rightBottomShowMiniPanel();
+                }
+                if (percentX <= 50f && percentY > 50f)
+                {
+                    leftTopSetAboutPanelText(titleText);
+                    setLeftTopPosition(percentX, percentY);
+                    leftTopShowMiniPanel();
+                }
+                if (percentX > 50f && percentY > 50f)
+                {
+                    rightTopSetAboutPanelText(titleText);
+                    setRightTopPosition(percentX, percentY);
+                    rightTopShowMiniPanel();
+                }
+
+                Texture2D  texture = UnityEngine.Resources.Load("Images/" + imageSource) as Texture2D;
+                TextureSource source = new TextureSource(texture);
+                CameraViewControl.Instance.rightPanelImage.Source = source;
+                CameraViewControl.Instance.leftPanelImage.Source = source;
+
+                CameraViewControl.Instance.rightPanelTextBlock.Text = panelText;
+                CameraViewControl.Instance.leftPanelTextBlock.Text = panelText;
+
+                CameraViewControl.Instance.rightPanelTitleTextBlock.Text = titleText;
+                CameraViewControl.Instance.leftPanelTitleTextBlock.Text = titleText;
             }
             public void HideMiniPanel()
             {
@@ -68,6 +108,39 @@ namespace Mo_2015_06_21_UsHatyn
                     rightBottomHideMiniPanel();
                 }
             }
+            public void ChangeMiniPanelPosition(float percentX, float percentY)
+            {
+                if (CameraViewControl.Instance.leftTopAboutPanelGrid.Visibility == Visibility.Hidden &&
+                    CameraViewControl.Instance.leftBottomAboutPanelGrid.Visibility == Visibility.Hidden &&
+                    CameraViewControl.Instance.rightTopAboutPanelGrid.Visibility == Visibility.Hidden &&
+                    CameraViewControl.Instance.rightBottomAboutPanelGrid.Visibility == Visibility.Hidden)
+                {
+                    return;
+                }
+                if (CameraViewControl.Instance.leftTopAboutPanelGrid.Visibility == Visibility.Visible)
+                {
+                    setLeftTopPosition(percentX, percentY);
+                    return;
+                }
+                else
+                if (CameraViewControl.Instance.leftBottomAboutPanelGrid.Visibility == Visibility.Visible)
+                {
+                    setLeftBottomPosition(percentX, percentY);
+                    return;
+                }
+                else
+                if (CameraViewControl.Instance.rightTopAboutPanelGrid.Visibility == Visibility.Visible)
+                {
+                    setRightTopPosition(percentX, percentY);
+                    return;
+                }
+                else
+                if (CameraViewControl.Instance.rightBottomAboutPanelGrid.Visibility == Visibility.Visible)
+                {
+                    setRightBottomPosition(percentX, percentY);
+                    return;
+                }
+            }
 
             private void leftTopShowMiniPanel()
             {
@@ -85,7 +158,7 @@ namespace Mo_2015_06_21_UsHatyn
                 int count = countOfWords(text);
                 if (maxWord > 8)
                 {
-                    CameraViewControl.Instance.leftTop.Width = 136.667f + (maxWord - 8) * 10;
+                    CameraViewControl.Instance.leftTop.Width = 136.667f + (maxWord - 8) * 14;
                 }
                 else
                 {
@@ -115,7 +188,7 @@ namespace Mo_2015_06_21_UsHatyn
                 int count = countOfWords(text);
                 if (maxWord > 8)
                 {
-                    CameraViewControl.Instance.leftBottom.Width = 136.667f + (maxWord - 8) * 10;
+                    CameraViewControl.Instance.leftBottom.Width = 136.667f + (maxWord - 8) * 14;
                 }
                 else
                 {
@@ -145,7 +218,7 @@ namespace Mo_2015_06_21_UsHatyn
                 int count = countOfWords(text);
                 if (maxWord > 8)
                 {
-                    CameraViewControl.Instance.rightTop.Width = 136.667f + (maxWord - 8) * 10;
+                    CameraViewControl.Instance.rightTop.Width = 136.667f + (maxWord - 8) * 14;
                 }
                 else
                 {
@@ -175,7 +248,7 @@ namespace Mo_2015_06_21_UsHatyn
                 int count = countOfWords(text);
                 if (maxWord > 8)
                 {
-                    CameraViewControl.Instance.rightBottom.Width = 136.667f + (maxWord - 8) * 10;
+                    CameraViewControl.Instance.rightBottom.Width = 136.667f + (maxWord - 8) * 14;
                 }
                 else
                 {
@@ -255,82 +328,136 @@ namespace Mo_2015_06_21_UsHatyn
         private Grid leftTopAboutPanelGrid;
         private Grid leftTop;
         private TextBlock leftTopAboutPanelTextBlock;
-        private Button leftTopAboutPanelButton;
         private Storyboard leftTopAboutPanelShow;
         private Storyboard leftTopAboutPanelHide;
         /*-----LEFT BOTTOM-------*/
         private Grid leftBottomAboutPanelGrid;
         private Grid leftBottom;
         private TextBlock leftBottomAboutPanelTextBlock;
-        private Button leftBottomAboutPanelButton;
         private Storyboard leftBottomAboutPanelShow;
         private Storyboard leftBottomAboutPanelHide;
         /*-----RIGHT TOP-------*/
         private Grid rightTopAboutPanelGrid;
         private Grid rightTop;
         private TextBlock rightTopAboutPanelTextBlock;
-        private Button rightTopAboutPanelButton;
         private Storyboard rightTopAboutPanelShow;
         private Storyboard rightTopAboutPanelHide;
         /*-----RIGHT BOTTOM-------*/
         private Grid rightBottomAboutPanelGrid;
         private Grid rightBottom;
         private TextBlock rightBottomAboutPanelTextBlock;
-        private Button rightBottomAboutPanelButton;
         private Storyboard rightBottomAboutPanelShow;
         private Storyboard rightBottomAboutPanelHide;
 
+        private Storyboard smallRightPanelShow;
+        private Storyboard smallLeftPanelShow;
+        private bool isInfoPanelShow = false;
+        private Button CloseSmallRightPanelButton;
+        private Button CloseSmallLeftPanelButton;
+
+        private Image rightPanelImage;
+        private Image leftPanelImage;
+        private TextBlock rightPanelTextBlock;
+        private TextBlock leftPanelTextBlock;
+        private TextBlock rightPanelTitleTextBlock;
+        private TextBlock leftPanelTitleTextBlock;
+       
         public MiniPanel MiniPanelObject;
         public Marker MarkerObject;
         private Grid markerGrid;
-
-        private TextBox x;
-        private TextBox y;
-        private TextBox text;
-
+    
         public void OnPostInit()
         {
             leftTopAboutPanelGrid = FindName("LeftTopAboutPanelGrid") as Grid;
             leftTop = FindName("LeftTop") as Grid;
             leftTopAboutPanelTextBlock = FindName("LeftTopAboutPanelTextBlock") as TextBlock;
-            leftTopAboutPanelButton = FindName("LeftTopAboutPanelButton") as Button;
             leftTopAboutPanelShow = FindResource("LeftTopAboutPanelShow") as Storyboard;
             leftTopAboutPanelHide = FindResource("LeftTopAboutPanelHide") as Storyboard;
 
             leftBottomAboutPanelGrid = FindName("LeftBottomAboutPanelGrid") as Grid;
             leftBottom = FindName("LeftBottom") as Grid;
             leftBottomAboutPanelTextBlock = FindName("LeftBottomAboutPanelTextBlock") as TextBlock;
-            leftBottomAboutPanelButton = FindName("LeftBottomAboutPanelButton") as Button;
             leftBottomAboutPanelShow = FindResource("LeftBottomAboutPanelShow") as Storyboard;
             leftBottomAboutPanelHide = FindResource("LeftBottomAboutPanelHide") as Storyboard;
 
             rightTopAboutPanelGrid = FindName("RightTopAboutPanelGrid") as Grid;
             rightTop = FindName("RightTop") as Grid;
             rightTopAboutPanelTextBlock = FindName("RightTopAboutPanelTextBlock") as TextBlock;
-            rightTopAboutPanelButton = FindName("RightTopAboutPanelButton") as Button;
             rightTopAboutPanelShow = FindResource("RightTopAboutPanelShow") as Storyboard;
             rightTopAboutPanelHide = FindResource("RightTopAboutPanelHide") as Storyboard;
 
             rightBottomAboutPanelGrid = FindName("RightBottomAboutPanelGrid") as Grid;
             rightBottom = FindName("RightBottom") as Grid;
             rightBottomAboutPanelTextBlock = FindName("RightBottomAboutPanelTextBlock") as TextBlock;
-            rightBottomAboutPanelButton = FindName("RightBottomAboutPanelButton") as Button;
             rightBottomAboutPanelShow = FindResource("RightBottomAboutPanelShow") as Storyboard;
             rightBottomAboutPanelHide = FindResource("RightBottomAboutPanelHide") as Storyboard;
 
             markerGrid = FindName("MarkerGrid") as Grid;
 
-            x = FindName("x") as TextBox;
-            y = FindName("y") as TextBox;
-            text = FindName("text") as TextBox;
+            smallRightPanelShow = FindResource("SmallRightPanelShow") as Storyboard;
+            smallLeftPanelShow = FindResource("SmallLeftPanelShow") as Storyboard;
+
+            CloseSmallRightPanelButton = FindName("CloseSmallRightPanelButton") as Button;
+            CloseSmallLeftPanelButton = FindName("CloseSmallLeftPanelButton") as Button;
+
+            CloseSmallRightPanelButton.Click += CloseInfoPanelButtonClick;
+            CloseSmallLeftPanelButton.Click += CloseInfoPanelButtonClick;
+
+            leftTop.MouseDown += leftMiniPanel_MouseDown;
+            leftBottom.MouseDown += leftMiniPanel_MouseDown;
+            rightTop.MouseDown += rightMiniPanel_MouseDown;
+            rightBottom.MouseDown += rightMiniPanel_MouseDown;
+
+            rightPanelImage = FindName("RightPanelImage") as Image;
+            leftPanelImage = FindName("LeftPanelImage") as Image;
+
+            rightPanelTextBlock = FindName("RightPanelTextBlock") as TextBlock;
+            leftPanelTextBlock = FindName("LeftPanelTextBlock") as TextBlock;
+
+            rightPanelTitleTextBlock = FindName("RightPanelTitleTextBlock") as TextBlock;
+            leftPanelTitleTextBlock = FindName("LeftPanelTitleTextBlock") as TextBlock;
 
             var button = FindName("button") as Button;
             button.Click += button_Click;
+
+            var marker_button = FindName("marker_button") as Button;
+
+            marker_button.Click += marker_button_Click;
+
+            
+        }
+
+        void CloseInfoPanelButtonClick(object sender, RoutedEventArgs e)
+        {
+            isInfoPanelShow = false;
+        }
+
+        void rightMiniPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!isInfoPanelShow)
+            {
+                smallLeftPanelShow.Begin();
+                isInfoPanelShow = true;
+            }
+        }
+
+        void leftMiniPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!isInfoPanelShow)
+            {
+                smallRightPanelShow.Begin();
+                isInfoPanelShow = true;                       
+            }
+        }
+
+        void marker_button_Click(object sender, RoutedEventArgs e)
+        {
+            MarkerObject.SetMarkerPosition(float.Parse((FindName("x_marker") as TextBox).Text), float.Parse((FindName("y_marker") as TextBox).Text));
         }
 
         void button_Click(object sender, RoutedEventArgs e)
         {
-            MiniPanelObject.ShowMiniPanel(float.Parse(x.Text), float.Parse(y.Text), text.Text);
+            MiniPanelObject.ShowMiniPanel(float.Parse((FindName("x") as TextBox).Text), float.Parse((FindName("y") as TextBox).Text), (FindName("text") as TextBox).Text, (FindName("x_Copy") as TextBox).Text, (FindName("y_Copy") as TextBox).Text);
         }
     }
 }

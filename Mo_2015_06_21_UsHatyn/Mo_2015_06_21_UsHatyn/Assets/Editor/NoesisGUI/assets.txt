@@ -2,3 +2,6 @@ Assets/MVVM/View/CameraViewControl.xaml
 Assets/MVVM/View/PlaneViewControl.xaml
 Assets/MVVM/View/Resources/Resources.xaml
 Assets/MVVM/View/Resources/Fonts/segoeui.ttf
+Assets/MVVM/View/us_hatyn_Images/Image2.png
+Assets/MVVM/View/us_hatyn_Images/Image1.png
+Assets/MVVM/View/us_hatyn_Images/Image.png
