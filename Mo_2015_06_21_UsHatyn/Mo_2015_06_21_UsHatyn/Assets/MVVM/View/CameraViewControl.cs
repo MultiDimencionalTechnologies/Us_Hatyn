@@ -20,35 +20,6 @@ namespace Mo_2015_06_21_UsHatyn
 
         public class MiniPanel
         {
-            /*public void ShowMiniPanel(float percentX, float percentY, string titleText)
-            {
-                HideMiniPanel();
-
-                if (percentX <= 50f && percentY <= 50f)
-                {
-                    leftBottomSetAboutPanelText(titleText);
-                    setLeftBottomPosition(percentX, percentY);
-                    leftBottomShowMiniPanel();
-                }
-                if (percentX > 50f && percentY <= 50f)
-                {
-                    rightBottomSetAboutPanelText(titleText);
-                    setRightBottomPosition(percentX, percentY);
-                    rightBottomShowMiniPanel();
-                }
-                if (percentX <= 50f && percentY > 50f)
-                {
-                    leftTopSetAboutPanelText(titleText);
-                    setLeftTopPosition(percentX, percentY);
-                    leftTopShowMiniPanel();
-                }
-                if (percentX > 50f && percentY > 50f)
-                {
-                    rightTopSetAboutPanelText(titleText);
-                    setRightTopPosition(percentX, percentY);
-                    rightTopShowMiniPanel();
-                }
-            }*/
             public void ShowMiniPanel(float percentX, float percentY, string titleText, string imageSource, string panelText)
             {
                 HideMiniPanel();
@@ -85,9 +56,17 @@ namespace Mo_2015_06_21_UsHatyn
 
                 CameraViewControl.Instance.rightPanelTextBlock.Text = panelText;
                 CameraViewControl.Instance.leftPanelTextBlock.Text = panelText;
-
+                                
                 CameraViewControl.Instance.rightPanelTitleTextBlock.Text = titleText;
                 CameraViewControl.Instance.leftPanelTitleTextBlock.Text = titleText;
+
+                //CameraViewControl.Instance.smallRightPanelScrollBar.ViewportSize = 30 * CameraViewControl.Instance.smallRightPanelScrollViewer.ScrollableHeight / (CameraViewControl.Instance.smallRightPanelScrollViewer.Height - 30);
+                //CameraViewControl.Instance.smallLeftPanelScrollBar.ViewportSize = 30 * CameraViewControl.Instance.smallLeftPanelScrollViewer.ScrollableHeight / (CameraViewControl.Instance.smallLeftPanelScrollViewer.Height - 30);
+
+                //Debug.Log(CameraViewControl.Instance.smallRightPanelScrollViewer.ScrollableHeight.ToString());
+
+                //Debug.Log(CameraViewControl.Instance.smallLeftPanelScrollBar.ViewportSize.ToString());
+                //Debug.Log(CameraViewControl.Instance.smallRightPanelScrollBar.ViewportSize.ToString());
             }
             public void HideMiniPanel()
             {
@@ -365,7 +344,18 @@ namespace Mo_2015_06_21_UsHatyn
         public MiniPanel MiniPanelObject;
         public Marker MarkerObject;
         private Grid markerGrid;
-    
+
+        private TextBox searchTextBox;
+        private StackPanel searchStackPanel;
+
+        private ScrollViewer smallRightPanelScrollViewer;
+        private ScrollViewer smallLeftPanelScrollViewer;
+
+        private ScrollBar smallRightPanelScrollBar;
+        private ScrollBar smallLeftPanelScrollBar;
+
+        private Image AEBImage;
+
         public void OnPostInit()
         {
             leftTopAboutPanelGrid = FindName("LeftTopAboutPanelGrid") as Grid;
@@ -417,6 +407,17 @@ namespace Mo_2015_06_21_UsHatyn
             rightPanelTitleTextBlock = FindName("RightPanelTitleTextBlock") as TextBlock;
             leftPanelTitleTextBlock = FindName("LeftPanelTitleTextBlock") as TextBlock;
 
+            smallRightPanelScrollViewer = FindName("SmallRightPanelScrollViewer") as ScrollViewer;
+            smallLeftPanelScrollViewer = FindName("SmallLeftPanelScrollViewer") as ScrollViewer;
+
+            smallRightPanelScrollBar = smallRightPanelScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
+            smallLeftPanelScrollBar = smallLeftPanelScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
+
+            searchStackPanel = FindName("searchStackPanel") as StackPanel;
+            searchTextBox = FindName("textBox") as TextBox;
+
+            searchTextBox.TextChanged += textBox_TextChanged;
+
             var button = FindName("button") as Button;
             button.Click += button_Click;
 
@@ -424,12 +425,85 @@ namespace Mo_2015_06_21_UsHatyn
 
             marker_button.Click += marker_button_Click;
 
-            
+            AEBImage = FindName("AEBImage") as Image;
+            AEBImage.MouseLeftButtonDown += AEBImage_MouseLeftButtonDown;
+        }
+
+        void AEBImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((Image)sender).MouseLeftButtonUp += CameraViewControl_MouseLeftButtonUp;
+        }
+
+        void CameraViewControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            (FindResource("AEBShow") as Storyboard).Begin();
+            aebShowPanel("aeb","Алмазэргиэнбанк – крупнейший банк Республики Саха (Якутия), работающий на рынке финансовых услуг более 20 лет.\n\nВ структуру Банка входит 14 дополнительных офисов,расположенных в двенадцати улусах республики и 7 операционных офисов в городе Якутске. Банк имеет представительства в Москве, Санкт-Петербурге, Владивостоке, а также офис в Хабаровске. Алмазэргиэнбанк имеет свой процессинговый центр, в котором обслуживаются более 150 торгово-сервисных предприятий и более 80 тысяч эмитированных Банком карт.\n\nКлиентами банка являются более 15 тысяч предприятий и индивидуальных предпринимателей Якутии и Дальнего Востока. Ежегодно Алмазэргиэнбанк обслуживает свыше трехсот тысяч частных лиц.\nПриоритетными направлениями деятельности Алмазэргиэнбанка являются кредитование корпоративных клиентов и привлечение денежных средств населения во вклады, реализацию инвестиционной политики и крупных инфраструктурных проектов, направленных на повышение уровня и качества жизни якутян","АКБ \"АЛМАЗЭРГИЭНБАНК\" ОАО");
+        }
+
+        void textBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            //CreateTextBlockInSearch((i++).ToString());
+            CreateTextBlockInSearch("qwertyuiopasdfghjkl;zxcvbnm,1234567890");
+            //Здесь нужно вызвать метод CreateTextBlockInSearchs
+
+            var searchScrollViewer = FindName("searchScrollViewer") as ScrollViewer;
+            var searchScrollBar = searchScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
+            searchScrollBar.ViewportSize = 30 * searchScrollViewer.ScrollableHeight / (searchScrollViewer.Height - 30);
+        }
+
+        public void CreateTextBlockInSearch(string text)
+        {
+            TextBlock textBlock = new TextBlock();
+            Style searchTextBlockStyle = FindResource("searchTextBlockStyle") as Style;
+            textBlock.Style = searchTextBlockStyle;
+            textBlock.Text = text;
+            searchStackPanel.Children.Add(textBlock);
+            textBlock.MouseLeftButtonDown += textBlock_MouseLeftButtonDown;
+        }
+
+        void aebShowPanel(string imageSource, string panelText, string titleText)
+        {
+            Texture2D texture = UnityEngine.Resources.Load("Images/" + imageSource) as Texture2D;
+            TextureSource source = new TextureSource(texture);
+            CameraViewControl.Instance.rightPanelImage.Source = source;
+            CameraViewControl.Instance.leftPanelImage.Source = source;
+
+            CameraViewControl.Instance.rightPanelTextBlock.Text = panelText;
+            CameraViewControl.Instance.leftPanelTextBlock.Text = panelText;
+
+            CameraViewControl.Instance.rightPanelTitleTextBlock.Text = titleText;
+            CameraViewControl.Instance.leftPanelTitleTextBlock.Text = titleText;
+
+            if (!isInfoPanelShow)
+            {
+                smallRightPanelShow.Begin();
+                isInfoPanelShow = true;
+            }
+        }
+
+        public void CreateTextBlockInSearch(string[] text)
+        {
+            foreach (var word in text)
+            {
+                CreateTextBlockInSearch(word);
+            }
+        }
+
+        void textBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBlock textBlock = (TextBlock)sender;
+            textBlock.MouseLeftButtonUp += textBlock_MouseLeftButtonUp;
+        }
+
+        void textBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            searchTextBox.Text = ((TextBlock)sender).Text;
         }
 
         void CloseInfoPanelButtonClick(object sender, RoutedEventArgs e)
         {
             isInfoPanelShow = false;
+            (FindResource("AEBHide") as Storyboard).Begin();
         }
 
         void rightMiniPanel_MouseDown(object sender, MouseButtonEventArgs e)

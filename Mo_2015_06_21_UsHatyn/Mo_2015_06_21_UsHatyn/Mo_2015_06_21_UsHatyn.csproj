@@ -112,7 +112,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\MVVM\View\Resources\Images\" />
     <Folder Include="Fonts\" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +119,7 @@
       <All>True</All>
       <AutoFill>True</AutoFill>
     </Resource>
+    <Resource Include="Assets\MVVM\View\Resources\Images\aeb.jpg" />
     <Resource Include="Assets\MVVM\View\us_hatyn_Images\Image.png" />
     <Resource Include="Assets\MVVM\View\us_hatyn_Images\Image1.png" />
     <Resource Include="Assets\MVVM\View\us_hatyn_Images\Image2.png" />
