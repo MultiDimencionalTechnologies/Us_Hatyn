@@ -102,6 +102,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Assets\MVVM\View\Resources\Images\logo_mar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -115,14 +118,13 @@
     <Folder Include="Fonts\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\MVVM\View\Resources\Fonts\1_ARIALSA.ttf" />
     <Resource Include="Assets\MVVM\View\Resources\Fonts\segoeui.ttf">
       <All>True</All>
       <AutoFill>True</AutoFill>
     </Resource>
     <Resource Include="Assets\MVVM\View\Resources\Images\aeb.jpg" />
-    <Resource Include="Assets\MVVM\View\us_hatyn_Images\Image.png" />
-    <Resource Include="Assets\MVVM\View\us_hatyn_Images\Image1.png" />
-    <Resource Include="Assets\MVVM\View\us_hatyn_Images\Image2.png" />
+    <Resource Include="Assets\MVVM\View\Resources\Images\MDTLOGO.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.5\Microsoft.Expression.Blend.WPF.targets" />

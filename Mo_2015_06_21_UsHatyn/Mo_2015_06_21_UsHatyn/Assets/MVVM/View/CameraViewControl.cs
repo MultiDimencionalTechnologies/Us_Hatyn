@@ -356,6 +356,8 @@ namespace Mo_2015_06_21_UsHatyn
 
         private Image AEBImage;
 
+        private List<Button> ListOfButtons = new List<Button>();
+
         public void OnPostInit()
         {
             leftTopAboutPanelGrid = FindName("LeftTopAboutPanelGrid") as Grid;
@@ -417,6 +419,7 @@ namespace Mo_2015_06_21_UsHatyn
             searchTextBox = FindName("textBox") as TextBox;
 
             searchTextBox.TextChanged += textBox_TextChanged;
+            searchTextBox.LostKeyboardFocus += searchTextBox_LostKeyboardFocus;
 
             var button = FindName("button") as Button;
             button.Click += button_Click;
@@ -427,6 +430,24 @@ namespace Mo_2015_06_21_UsHatyn
 
             AEBImage = FindName("AEBImage") as Image;
             AEBImage.MouseLeftButtonDown += AEBImage_MouseLeftButtonDown;
+
+            for (int i = 1; i <= 76; i++)
+            {
+                var goToProgramButton = FindName("GoToProgramButton_" + i.ToString()) as Button;
+                ListOfButtons.Add(goToProgramButton);
+            }
+
+            foreach (var item in ListOfButtons)
+            {
+                item.Click += item_Click;
+            }
+        }
+              
+
+        void item_Click(object sender, RoutedEventArgs e)
+        {
+            //Debug.Log(((Button)sender).Content.ToString());
+            // ВЫЗОВ МЕТОДА АНИМАЦИИ ПЕРЕХОДА К ОБЪЕКТУ
         }
 
         void AEBImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -437,7 +458,7 @@ namespace Mo_2015_06_21_UsHatyn
         void CameraViewControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             (FindResource("AEBShow") as Storyboard).Begin();
-            aebShowPanel("aeb","Алмазэргиэнбанк – крупнейший банк Республики Саха (Якутия), работающий на рынке финансовых услуг более 20 лет.\n\nВ структуру Банка входит 14 дополнительных офисов,расположенных в двенадцати улусах республики и 7 операционных офисов в городе Якутске. Банк имеет представительства в Москве, Санкт-Петербурге, Владивостоке, а также офис в Хабаровске. Алмазэргиэнбанк имеет свой процессинговый центр, в котором обслуживаются более 150 торгово-сервисных предприятий и более 80 тысяч эмитированных Банком карт.\n\nКлиентами банка являются более 15 тысяч предприятий и индивидуальных предпринимателей Якутии и Дальнего Востока. Ежегодно Алмазэргиэнбанк обслуживает свыше трехсот тысяч частных лиц.\nПриоритетными направлениями деятельности Алмазэргиэнбанка являются кредитование корпоративных клиентов и привлечение денежных средств населения во вклады, реализацию инвестиционной политики и крупных инфраструктурных проектов, направленных на повышение уровня и качества жизни якутян","АКБ \"АЛМАЗЭРГИЭНБАНК\" ОАО");
+            aebShowPanel("aeb","\nАлмазэргиэнбанк – крупнейший банк Республики Саха (Якутия), работающий на рынке финансовых услуг более 20 лет.\nВ структуру Банка входит 14 дополнительных офисов, расположенных в двенадцати улусах республики и 7 операционных офисов в городе Якутске. Банк имеет представительства в Москве, Санкт-Петербурге, Владивостоке, а также офис в Хабаровске. Алмазэргиэнбанк имеет свой процессинговый центр, в котором обслуживаются более 150 торгово-сервисных предприятий и более 80 тысяч эмитированных Банком карт.\nКлиентами банка являются более 15 тысяч предприятий и индивидуальных предпринимателей Якутии и Дальнего Востока. Ежегодно Алмазэргиэнбанк обслуживает свыше трехсот тысяч частных лиц.\nПриоритетными направлениями деятельности Алмазэргиэнбанка являются кредитование корпоративных клиентов и привлечение денежных средств населения во вклады, реализацию инвестиционной политики и крупных инфраструктурных проектов, направленных на повышение уровня и качества жизни якутян.\n\n\n","АКБ \"АЛМАЗЭРГИЭНБАНК\" ОАО");
         }
 
         void textBox_TextChanged(object sender, RoutedEventArgs e)
@@ -446,9 +467,14 @@ namespace Mo_2015_06_21_UsHatyn
             CreateTextBlockInSearch("qwertyuiopasdfghjkl;zxcvbnm,1234567890");
             //Здесь нужно вызвать метод CreateTextBlockInSearchs
 
-            var searchScrollViewer = FindName("searchScrollViewer") as ScrollViewer;
-            var searchScrollBar = searchScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
-            searchScrollBar.ViewportSize = 30 * searchScrollViewer.ScrollableHeight / (searchScrollViewer.Height - 30);
+            //var searchScrollViewer = FindName("searchScrollViewer") as ScrollViewer;
+            //var searchScrollBar = searchScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
+            //searchScrollBar.ViewportSize = 30 * searchScrollViewer.ScrollableHeight / (searchScrollViewer.Height - 30);
+        }
+
+        void searchTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            //ПРОВЕРКА СТРОКИ НА СОВПАДЕНИЕ ПО ОБЪЕКТАМ, ЕСЛИ ЕСТЬ СОВПАДЕНИЕ, ТО ВКЛ АНИМАЦИЮ ПЕРЕХОДА К ОБЪЕКТУ
         }
 
         public void CreateTextBlockInSearch(string text)
@@ -498,6 +524,7 @@ namespace Mo_2015_06_21_UsHatyn
         void textBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             searchTextBox.Text = ((TextBlock)sender).Text;
+            //ВЫЗОВ МЕТОДА АНИМАЦИИ ПЕРЕХОДА К ОБЪЕКТУ
         }
 
         void CloseInfoPanelButtonClick(object sender, RoutedEventArgs e)
