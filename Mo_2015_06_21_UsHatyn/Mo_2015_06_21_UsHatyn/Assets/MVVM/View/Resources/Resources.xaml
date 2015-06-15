@@ -101,7 +101,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type RepeatButton}">
 					<Canvas Height="18">
-						<Polygon Fill="LightBlue" Points="3,15 15,15 9,3"/>
+						<Path Data="M3,15 L15,15 L9,3 z" Fill="LightBlue" Stretch="Fill"/>
 					</Canvas>
 				</ControlTemplate>
 			</Setter.Value>
@@ -114,36 +114,20 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type RepeatButton}">
 					<Canvas Height="18">
-						<Polygon Fill="LightBlue" Points="3,3 9,15 15,3"/>
+						<Path Data="M3,3 L9,15 L15,3 z" Fill="LightBlue" Stretch="Fill"/>
 					</Canvas>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
-	<Style x:Key="ScrollBarPageButtonStyleDecrease" TargetType="{x:Type RepeatButton}">
-		<Setter Property="IsTabStop" Value="False"/>
-		<Setter Property="Focusable" Value="False"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type RepeatButton}">
-					<Border BorderBrush="Transparent" Background="#FFEF9B3F" Width="7" HorizontalAlignment="Center" VerticalAlignment="Stretch" CornerRadius="5"/>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+	<ControlTemplate x:Key="ScrollBarPageButtonStyleDecrease" TargetType="{x:Type RepeatButton}">
+		<Border BorderBrush="Transparent" Background="#FFEF9B3F" Width="7" HorizontalAlignment="Center" VerticalAlignment="Stretch" CornerRadius="5"/>
+	</ControlTemplate>
 
-	<Style x:Key="ScrollBarPageButtonStyleIncrease" TargetType="{x:Type RepeatButton}">
-		<Setter Property="IsTabStop" Value="False"/>
-		<Setter Property="Focusable" Value="False"/>
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type RepeatButton}">
-					<Border BorderBrush="Transparent" Background="#FF474747" Width="7" HorizontalAlignment="Center" CornerRadius="5"/>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
+	<ControlTemplate x:Key="ScrollBarPageButtonStyleIncrease" TargetType="{x:Type RepeatButton}">
+		<Border BorderBrush="Transparent" Background="#FF474747" Width="7" HorizontalAlignment="Center" CornerRadius="5"/>
+	</ControlTemplate>
 
 	<Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
 		<Setter Property="IsTabStop" Value="False"/>
@@ -163,13 +147,13 @@
 			<Track x:Name="PART_Track" 
 				IsDirectionReversed="True" ViewportSize="30" Orientation="{TemplateBinding Orientation}">
 				<Track.DecreaseRepeatButton>
-					<RepeatButton Command="ScrollBar.PageUpCommand" Style="{StaticResource ScrollBarPageButtonStyleDecrease}" Background="#FFDDDDDD" HorizontalAlignment="Center"/>
+					<RepeatButton Command="ScrollBar.PageUpCommand" Template="{StaticResource ScrollBarPageButtonStyleDecrease}" Background="#FFDDDDDD" HorizontalAlignment="Center"/>
 				</Track.DecreaseRepeatButton>
 				<Track.Thumb>
 					<Thumb Style="{StaticResource ScrollBarThumbStyle}" VerticalAlignment="Stretch" HorizontalAlignment="Center" Height="30"/>
 				</Track.Thumb>
 				<Track.IncreaseRepeatButton>
-					<RepeatButton Command="ScrollBar.PageDownCommand" Style="{StaticResource ScrollBarPageButtonStyleIncrease}" HorizontalAlignment="Center"/>
+					<RepeatButton Command="ScrollBar.PageDownCommand" Template="{StaticResource ScrollBarPageButtonStyleIncrease}" HorizontalAlignment="Center"/>
 				</Track.IncreaseRepeatButton>
 			</Track>
 		</Grid>
@@ -178,6 +162,126 @@
 	<Style TargetType="{x:Type ScrollBar}">
 		<Setter Property="Template" Value="{StaticResource VerticalScrollBar}"/>
 	</Style>
+	<ControlTemplate x:Key="SliderControlTemplate1" TargetType="{x:Type Slider}">
+		<Border x:Name="border" SnapsToDevicePixels="True">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition MinWidth="{TemplateBinding MinWidth}" Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TickBar x:Name="TopTick" Grid.Column="0" Fill="{TemplateBinding Foreground}" Margin="0,0,2,0" Placement="Left" Visibility="Collapsed" Width="4"/>
+				<TickBar x:Name="BottomTick" Grid.Column="2" Fill="{TemplateBinding Foreground}" Margin="2,0,0,0" Placement="Right" Visibility="Collapsed" Width="4"/>
+				<Border x:Name="TrackBackground" BorderBrush="{x:Null}" BorderThickness="1" Background="{x:Null}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,5" Width="4">
+					<Canvas Margin="-1,-6">
+						<Rectangle x:Name="PART_SelectionRange" Visibility="Hidden" Width="4"/>
+					</Canvas>
+				</Border>
+				<Track x:Name="PART_Track" Grid.Column="1">
+					<Track.DecreaseRepeatButton>
+						<RepeatButton Command="Slider.DecreaseLarge" Template="{StaticResource ScrollBarPageButtonStyleDecrease}"/>
+					</Track.DecreaseRepeatButton>
+					<Track.IncreaseRepeatButton>
+						<RepeatButton Command="Slider.IncreaseLarge" Template="{StaticResource ScrollBarPageButtonStyleIncrease}"/>
+					</Track.IncreaseRepeatButton>
+					<Track.Thumb>
+						<Thumb x:Name="Thumb" Focusable="False" Height="11" OverridesDefaultStyle="True" VerticalAlignment="Top" Width="18">
+							<Thumb.Template>
+								<ControlTemplate TargetType="{x:Type Thumb}">
+									<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+										<Path x:Name="grip" Data="M0.5,0.5L18.5,0.5 18.5,11.5 0.5,11.5z" Fill="#FFF0F0F0" Stretch="Fill" Stroke="#FFACACAC" Visibility="Collapsed"/>
+										<Viewbox HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Stretch="Uniform">
+											<Ellipse Fill="#FFEF9B3F" Stroke="White" Height="30" Width="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+										</Viewbox>
+									</Grid>
+									<ControlTemplate.Triggers>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="Fill" TargetName="grip" Value="#FFDCECFC"/>
+											<Setter Property="Stroke" TargetName="grip" Value="#FF7EB4EA"/>
+										</Trigger>
+										<Trigger Property="IsDragging" Value="True">
+											<Setter Property="Fill" TargetName="grip" Value="#FFDAECFC"/>
+											<Setter Property="Stroke" TargetName="grip" Value="#FF569DE5"/>
+										</Trigger>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Fill" TargetName="grip" Value="#FFF0F0F0"/>
+											<Setter Property="Stroke" TargetName="grip" Value="#FFD9D9D9"/>
+										</Trigger>
+									</ControlTemplate.Triggers>
+								</ControlTemplate>
+							</Thumb.Template>
+						</Thumb>
+					</Track.Thumb>
+				</Track>
+			</Grid>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="TickPlacement" Value="TopLeft">
+				<Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
+				<Setter Property="Template" TargetName="Thumb">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Thumb}">
+							<Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+								<Path x:Name="grip" Data="M6,11C6,11 0,5.5 0,5.5 0,5.5 6,0 6,0 6,0 18,0 18,0 18,0 18,11 18,11 18,11 6,11 6,11z" Fill="#FFF0F0F0" Stretch="Fill" Stroke="#FFACACAC"/>
+							</Grid>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter Property="Fill" TargetName="grip" Value="#FFDCECFC"/>
+									<Setter Property="Stroke" TargetName="grip" Value="#FF7EB4EA"/>
+								</Trigger>
+								<Trigger Property="IsDragging" Value="True">
+									<Setter Property="Fill" TargetName="grip" Value="#FFDAECFC"/>
+									<Setter Property="Stroke" TargetName="grip" Value="#FF569DE5"/>
+								</Trigger>
+								<Trigger Property="IsEnabled" Value="False">
+									<Setter Property="Fill" TargetName="grip" Value="#FFF0F0F0"/>
+									<Setter Property="Stroke" TargetName="grip" Value="#FFD9D9D9"/>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+				<Setter Property="Margin" TargetName="TrackBackground" Value="2,5,0,5"/>
+			</Trigger>
+			<Trigger Property="TickPlacement" Value="BottomRight">
+				<Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
+				<Setter Property="Template" TargetName="Thumb">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Thumb}">
+							<Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+								<Path x:Name="grip" Data="M12,11C12,11 18,5.5 18,5.5 18,5.5 12,0 12,0 12,0 0,0 0,0 0,0 0,11 0,11 0,11 12,11 12,11z" Fill="#FFF0F0F0" Stretch="Fill" Stroke="#FFACACAC"/>
+							</Grid>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter Property="Fill" TargetName="grip" Value="#FFDCECFC"/>
+									<Setter Property="Stroke" TargetName="grip" Value="#FF7EB4EA"/>
+								</Trigger>
+								<Trigger Property="IsDragging" Value="True">
+									<Setter Property="Fill" TargetName="grip" Value="#FFDAECFC"/>
+									<Setter Property="Stroke" TargetName="grip" Value="#FF569DE5"/>
+								</Trigger>
+								<Trigger Property="IsEnabled" Value="False">
+									<Setter Property="Fill" TargetName="grip" Value="#FFF0F0F0"/>
+									<Setter Property="Stroke" TargetName="grip" Value="#FFD9D9D9"/>
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+				<Setter Property="Margin" TargetName="TrackBackground" Value="0,5,2,5"/>
+			</Trigger>
+			<Trigger Property="TickPlacement" Value="Both">
+				<Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
+				<Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
+			</Trigger>
+			<Trigger Property="IsSelectionRangeEnabled" Value="True">
+				<Setter Property="Visibility" TargetName="PART_SelectionRange" Value="Visible"/>
+			</Trigger>
+			<Trigger Property="IsKeyboardFocused" Value="True">
+				<Setter Property="Foreground" TargetName="Thumb" Value="Blue"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
 	<ControlTemplate x:Key="ScrollViewerControlTemplate1" TargetType="{x:Type ScrollViewer}">
 		<Grid>
 			<Grid.RowDefinitions>
@@ -187,8 +291,9 @@
 				<ColumnDefinition Width="132*"/>
 				<ColumnDefinition Width="13*"/>
 			</Grid.ColumnDefinitions>
-			<ScrollBar x:Name="PART_VerticalScrollBar" HorizontalAlignment="Right" Grid.Column="1" Template="{DynamicResource VerticalScrollBar}" Maximum="{TemplateBinding ScrollableHeight}" Value="{TemplateBinding VerticalOffset}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Grid.RowSpan="1" Margin="0,0,1.5,0" Width="19"/>
-			<ScrollContentPresenter Grid.RowSpan="1"/>
+			<ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.RowSpan="1"/>
+			<Slider x:Name="Slider" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" Maximum="{TemplateBinding ScrollableHeight}" Value="{TemplateBinding VerticalOffset}" IsDirectionReversed="True" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Template="{DynamicResource SliderControlTemplate1}" Width="19"/>
+
 		</Grid>
 	</ControlTemplate>
 
@@ -241,6 +346,21 @@
 			</MultiTrigger>
 		</Style.Triggers>
 	</Style>
+	<Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
+		<Setter Property="OverridesDefaultStyle" Value="true"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Focusable" Value="false"/>
+		<Setter Property="IsTabStop" Value="false"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type RepeatButton}">
+					<Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	
 
 	<!-- Resource dictionary entries should be defined here. -->
 	</ResourceDictionary>

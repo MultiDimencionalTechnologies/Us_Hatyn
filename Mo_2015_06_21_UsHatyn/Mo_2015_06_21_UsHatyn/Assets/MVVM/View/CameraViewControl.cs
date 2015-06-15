@@ -467,9 +467,9 @@ namespace Mo_2015_06_21_UsHatyn
             CreateTextBlockInSearch("qwertyuiopasdfghjkl;zxcvbnm,1234567890");
             //Здесь нужно вызвать метод CreateTextBlockInSearchs
 
-            //var searchScrollViewer = FindName("searchScrollViewer") as ScrollViewer;
-            //var searchScrollBar = searchScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
-            //searchScrollBar.ViewportSize = 30 * searchScrollViewer.ScrollableHeight / (searchScrollViewer.Height - 30);
+            var searchScrollViewer = FindName("searchScrollViewer") as ScrollViewer;
+            var searchScrollBar = searchScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
+            searchScrollBar.ViewportSize = 30 * searchScrollViewer.ScrollableHeight / (searchScrollViewer.Height - 30);
         }
 
         void searchTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

@@ -19,10 +19,10 @@ namespace Mo_2015_06_21_UsHatyn
 	/// </summary>
 	public partial class CameraViewControl : UserControl
 	{
-		public CameraViewControl()
-		{
-			this.InitializeComponent();
-		}
+        public CameraViewControl()
+        {
+            this.InitializeComponent();
+        }
 	}
 }
 #endif

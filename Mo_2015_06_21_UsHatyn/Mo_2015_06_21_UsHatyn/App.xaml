@@ -8,6 +8,7 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="Assets/MVVM/View/Resources/Resources.xaml"/>
+				<ResourceDictionary Source="Assets/MVVM/View/Resources/ResourceDictionary1.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
