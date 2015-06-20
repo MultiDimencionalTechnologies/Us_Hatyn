@@ -10,10 +10,7 @@ public class MainController : MonoBehaviour {
 
 	private bool detecttap = true;
     public bool flag = false;
-
 	public Tracker user;
-	//public int currentObjectID;
-
 	bool move=false;
 	public Vector2 prevPosition;
 	private float softborderX;
@@ -24,13 +21,9 @@ public class MainController : MonoBehaviour {
 	public RaycastHit rh = new RaycastHit();
 	public int currentID = -1;
     public Touch touch;
-	//private bool miniPannelShowed=false;
-
 	public PointObject[] objectList = new PointObject[23];
 	private float orthographicSize;
-
     private Vector3 buffX;
-
     public TextAsset[] Texts;
 /*-----------------------------------START BLOCK----------------------------------------------------*/
     private void copyFilesFromResourcesToPersistentDataPath()
@@ -121,8 +114,6 @@ public class MainController : MonoBehaviour {
 			while (line != null);			   
 			theReader.Close();
 		}
-
-		//user.Track(user.target1);
         CameraViewControl.Instance.CreateTextBlockInSearch(FindByName(""));
 	}
 
@@ -173,7 +164,6 @@ public class MainController : MonoBehaviour {
                             else
                             {
                                 CameraViewControl.Instance.MiniPanelObject.HideMiniPanel();
-                                //user.StopTracking();
                             }
 						}
                         tapTimer = 0f;
@@ -206,12 +196,6 @@ public class MainController : MonoBehaviour {
 			}	 
 		}
         checkBorders();
-        /*
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            TranslatetoObject(spaceobj);
-            spaceobj++;
-        }
-         * */
 	}
 
 	private void LateUpdate()
@@ -343,29 +327,21 @@ public class MainController : MonoBehaviour {
         Hashtable ht = new Hashtable();
         ht.Add("x", user.gameObject.transform.position.x);
         ht.Add("z", user.gameObject.transform.position.z);
-        //ht.Add ("looktarget",objectList[objectID].po_transform);
         ht.Add("time", 2f);
         ht.Add("easetype", iTween.EaseType.easeOutCubic);
-        //ht.Add("onstart", "SetTapDetecting");
-        //ht.Add("onstartparams", false);
-        //ht.Add("oncomplete", "SetTapDetecting");
-        //ht.Add("oncompleteparams", true);
         iTween.MoveTo(gameObject, ht);
     }
 
 	public void TranslatetoObject(int objectID){
-        user.Track(objectList[objectID].po_transform);
+        if (CameraViewControl.Instance.MarkerObject.MarkerVisibility)
+        {
+            user.Track(objectList[objectID].po_transform);
+        }
 		Hashtable ht = new Hashtable ();
 		ht.Add ("x", objectList [objectID].po_transform.position.x);
 		ht.Add ("z", objectList [objectID].po_transform.position.z);
-		//ht.Add ("looktarget",objectList[objectID].po_transform);
 		ht.Add ("time",1.25f);		
         ht.Add ("easetype", iTween.EaseType.easeOutCubic);
-		//Debug.Log (objectList [objectID].po_transform.name);
-		//ht.Add ("onstart","SetTapDetecting");
-		//ht.Add ("onstartparams", false);
-		//ht.Add ("oncomplete","SetTapDetecting");
-		//ht.Add ("oncompleteparams", true);
 		iTween.MoveTo (gameObject,ht);
 
 		if (GetComponent<Camera> ().orthographicSize != Screen.height / 2f) {
@@ -373,7 +349,6 @@ public class MainController : MonoBehaviour {
 			par.Add("from",GetComponent<Camera> ().orthographicSize);
 			par.Add("to",Screen.height / 2f * 2f);
             par.Add("time", 1.25f);
-			//ht.Add ("easetype", iTween.EaseType.easeOutCubic);
 			par.Add("onupdate","SetOrthoSize");
 			iTween.ValueTo(gameObject,par);
 		}
