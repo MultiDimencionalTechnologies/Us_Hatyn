@@ -8,6 +8,7 @@ public class PointObject{
 	public float coordY;
 	public string imagePath;
 	public string name;
+    public string nameWithNumber;
 	public string text;
 	public Transform po_transform;
 

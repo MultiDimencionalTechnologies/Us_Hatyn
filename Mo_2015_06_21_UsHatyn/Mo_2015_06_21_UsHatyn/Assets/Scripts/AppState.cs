@@ -66,14 +66,12 @@ public class AppState : MonoBehaviour {
         {
             InAppState = EAppState.Search;
             PrevAppState = EAppState.Main;
-            mController.SetTapDetecting(false);
         }
         if (newState == EAppState.Main && oldState == EAppState.Search)
         {
             InAppState = EAppState.Main;
             PrevAppState = EAppState.None;
             (CameraViewControl.Instance.FindResource("CloseLeftPanelClick") as Noesis.Storyboard).Begin();
-            mController.SetTapDetecting(true);
         }
 
         if (newState == EAppState.AEBSearch && oldState == EAppState.Search)

@@ -48,9 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\MVVM\View\CameraViewControl.cs" />
      <Compile Include="Assets\MVVM\View\CameraViewControl.xaml.cs" />
-     <Compile Include="Assets\MVVM\View\PlaneViewControl.cs" />
      <Compile Include="Assets\Scripts\AppState.cs" />
-     <Compile Include="Assets\Scripts\Loader.cs" />
+     <Compile Include="Assets\Scripts\CoordinatesConverter.cs" />
      <Compile Include="Assets\Scripts\MainController.cs" />
      <Compile Include="Assets\Scripts\PointObject.cs" />
      <Compile Include="Assets\Scripts\Tracker.cs" />

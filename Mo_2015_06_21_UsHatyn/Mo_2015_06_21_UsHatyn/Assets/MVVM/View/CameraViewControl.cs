@@ -467,7 +467,6 @@ namespace Mo_2015_06_21_UsHatyn
         void CameraViewControl_Completed(object sender, TimelineEventArgs e)
         {
             mainController.flag = false;
-            //Debug.Log(mainController.flag);
         }
 
         private void _28JuneButton_Click(object sender, RoutedEventArgs e)
@@ -555,8 +554,6 @@ namespace Mo_2015_06_21_UsHatyn
 			}
 			int id = int.Parse( ((Button)sender).Content.ToString ()) - 1;
 			mainController.TranslatetoObject (id);
-            //Debug.Log(((Button)sender).Content.ToString());
-            // ВЫЗОВ МЕТОДА АНИМАЦИИ ПЕРЕХОДА К ОБЪЕКТУ
         }
 
         void AEBImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -580,17 +577,16 @@ namespace Mo_2015_06_21_UsHatyn
         void textBox_TextChanged(object sender, RoutedEventArgs e)
         {
 			searchStackPanel.Children.Clear ();
-            //CreateTextBlockInSearch((i++).ToString());
-            //CreateTextBlockInSearch("blabla");
 			CreateTextBlockInSearch(mainController.FindByName (searchTextBox.Text));
-            //Здесь нужно вызвать метод CreateTextBlockInSearchs
-            //CreateTextBlockInSearch("qwertyuiopasdfghjkl;zxcvbnm,1234567890");
-            //Здесь нужно вызвать метод CreateTextBlockInSearchs
         }
 
         void searchTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            //ПРОВЕРКА СТРОКИ НА СОВПАДЕНИЕ ПО ОБЪЕКТАМ, ЕСЛИ ЕСТЬ СОВПАДЕНИЕ, ТО ВКЛ АНИМАЦИЮ ПЕРЕХОДА К ОБЪЕКТУ
+            Debug.Log("LostKeyboard Focus");
+            if (mainController.FindByName(searchTextBox.Text).Count() == 1)
+            {
+                mainController.TranslatetoObject(((TextBox)sender).Text);
+            }
         }
 
         public void CreateTextBlockInSearch(string text)
@@ -645,7 +641,6 @@ namespace Mo_2015_06_21_UsHatyn
         {
             searchTextBox.Text = ((TextBlock)sender).Text;
 			mainController.TranslatetoObject (((TextBlock)sender).Text);
-            //ВЫЗОВ МЕТОДА АНИМАЦИИ ПЕРЕХОДА К ОБЪЕКТУ
         }
 
         void CloseInfoPanelButtonClick(object sender, RoutedEventArgs e)

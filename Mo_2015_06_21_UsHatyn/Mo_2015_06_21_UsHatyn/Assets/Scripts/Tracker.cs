@@ -14,17 +14,20 @@ public class Tracker : MonoBehaviour {
 		path = new NavMeshPath();
 
 		lineRenderer = GetComponent<LineRenderer>();
-		lineRenderer.SetWidth(5f, 5f);
+		lineRenderer.SetWidth(10f, 10f);
 		//Track (target1);
 	}
 
 
-	public void Track(Transform target){		
+	public void Track(Transform target){
+        Debug.Log(1);
 		tracking = true;
 		NavMesh.CalculatePath(transform.position, target.position, NavMesh.AllAreas, path);
+        Debug.Log(2);
 		lineRenderer.SetVertexCount (path.corners.Length);
+        Debug.Log(path.corners.Length);
 		for (int i = 0; i < path.corners.Length; i++) {
-			//Debug.Log(path.corners[i]);
+			Debug.Log(path.corners[i]);
 			lineRenderer.SetPosition (i, path.corners [i]);				
 		}
 	}

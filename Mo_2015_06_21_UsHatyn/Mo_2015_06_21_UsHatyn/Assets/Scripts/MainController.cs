@@ -8,6 +8,8 @@ using System.Text;
 
 public class MainController : MonoBehaviour {
 
+    int spaceobj=0;
+
 	private bool detecttap = true;
     public bool flag = false;
 
@@ -60,6 +62,7 @@ public class MainController : MonoBehaviour {
 	}
 	private void SetOrthoSize(float newsize){
 		GetComponent<Camera>().orthographicSize = newsize;
+        checkBorders();
 	}
 
 	private void Start()
@@ -77,12 +80,12 @@ public class MainController : MonoBehaviour {
 				line = theReader.ReadLine();
 				if (line != null)
 				{	string[] entries = line.Split(';');
-					int id =int.Parse(entries[0]);
+					int id = int.Parse(entries[0]);
 					float X = float.Parse(entries[1]);
 					float Y = float.Parse(entries[2]);
 					PointObject npo = new PointObject(id,X,Y);
-					objectList[id-1]=npo;
-					objectList[id-1].imagePath="Objects/"+(id).ToString();
+					objectList[id - 1] = npo;
+					objectList[id-1].imagePath = "Objects/"+(id).ToString();
 					if (GameObject.Find(id.ToString())){
 						objectList[id-1].po_transform=GameObject.Find(id.ToString()).transform;
 					}
@@ -108,6 +111,7 @@ public class MainController : MonoBehaviour {
 					objectList[id-1].id=id;
 					string name = entries[1];
 					objectList[id-1].name=name;
+                    objectList[id - 1].nameWithNumber = id.ToString() + "." + objectList[id - 1].name;
                     entries = theReader.ReadLine().Split(';');
                     objectList[id - 1].text = "";
                     foreach (var item in entries)
@@ -133,16 +137,6 @@ public class MainController : MonoBehaviour {
 				if (Input.touchCount == 1) {
 					touch = Input.touches [0];
 					switch (touch.phase) {
-					/*case TouchPhase.Began:
-                        Physics.Raycast(Camera.main.ScreenPointToRay(touch.position), out rh, 15f);
-                        currentID = int.Parse(rh.transform.parent.name) - 1;
-                        if (currentID == -1)
-                        {
-                            CameraViewControl.Instance.MiniPanelObject.HideMiniPanel();
-                        }
-                        prevPosition = touch.position;
-                        tapTimer = 0;
-						break;*/
 					case TouchPhase.Stationary:
                         tapTimer += Time.deltaTime;
 						if (tapTimer >= 1) {
@@ -182,6 +176,7 @@ public class MainController : MonoBehaviour {
                             else
                             {
                                 CameraViewControl.Instance.MiniPanelObject.HideMiniPanel();
+                                //user.StopTracking();
                             }
 						}
                         tapTimer = 0f;
@@ -211,30 +206,15 @@ public class MainController : MonoBehaviour {
 				}
 
                 
-			}
-            /*
-			if (Input.GetMouseButtonDown (0)) {
-				if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out rh,15f)){
-					currentID=int.Parse(rh.transform.parent.name)-1;
-					Vector3 objectScreenPosition=Camera.main.WorldToScreenPoint(objectList[currentID].po_transform.position);
-					CameraViewControl.Instance.MiniPanelObject.ShowMiniPanel (100f*objectScreenPosition.x/Screen.width,100f*objectScreenPosition.y/Screen.height, objectList [currentID].name, objectList [currentID].imagePath, objectList [currentID].text);
-					TranslatetoObject(currentID);
-				}
-			}*/
-			 
+			}	 
 		}
         checkBorders();
         /*
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            tapTimer = 0;
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            TranslatetoObject(spaceobj);
+            spaceobj++;
         }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            tapTimer += Time.deltaTime;
-            Debug.Log(tapTimer);
-        }*/
+         * */
 	}
 
 	private void LateUpdate()
@@ -242,11 +222,10 @@ public class MainController : MonoBehaviour {
 		Vector3 userScreenPosition=Camera.main.WorldToScreenPoint(user.transform.position);
 		CameraViewControl.Instance.MarkerObject.SetMarkerPosition(100f*userScreenPosition.x/Screen.width,100f*userScreenPosition.y/Screen.height);
 		if (currentID != -1) {
-			Vector3 objectScreenPosition=Camera.main.WorldToScreenPoint(objectList[currentID].po_transform.position);
+			Vector3 objectScreenPosition = Camera.main.WorldToScreenPoint(objectList[currentID].po_transform.position);
 
 			CameraViewControl.Instance.MiniPanelObject.ChangeMiniPanelPosition(100f*objectScreenPosition.x/Screen.width,100f*objectScreenPosition.y/Screen.height);
 		}
-		//CameraViewControl.Instance.MiniPanelObject.ShowMiniPanel(100*Input.mousePosition.x/Screen.width,100*Input.mousePosition.y/Screen.height,objectList[currentID].name,objectList[currentID].imagePath,objectList[currentID].text);
 	}
 
 
@@ -263,7 +242,6 @@ public class MainController : MonoBehaviour {
                 buffX.y = transform.position.y;
                 buffX.z = transform.position.z;
                 transform.position = buffX;
-                //transform.position = new Vector3(9580f / 2f - softborderX, transform.position.y, transform.position.z);
             }
             else
             {
@@ -271,7 +249,6 @@ public class MainController : MonoBehaviour {
                 buffX.y = transform.position.y;
                 buffX.z = transform.position.z;
                 transform.position = buffX;
-                //transform.position = new Vector3(-9580f / 2f + softborderX, transform.position.y, transform.position.z);
             }
 			
 		}
@@ -283,7 +260,6 @@ public class MainController : MonoBehaviour {
                 buffX.y = transform.position.y;
                 buffX.z = 5121 / 2f - softborderY;
                 transform.position = buffX;
-                //transform.position = new Vector3(transform.position.x, transform.position.y, 5121 / 2f - softborderY);
             }
             else
             {
@@ -291,29 +267,35 @@ public class MainController : MonoBehaviour {
                 buffX.y = transform.position.y;
                 buffX.z = -5121 / 2f + softborderY;
                 transform.position = buffX;
-                //transform.position = new Vector3(transform.position.x, transform.position.y, -5121 / 2f + softborderY); 
             }
 		}
 	}
-	public string[] FindByName(string namepart){
+	public string[] FindByName(string namepart)
+    {
 		namepart = namepart.ToLower ();
 		List<string> search = new List<string>();
-		bool like=false;
-		for (int i=0; i<objectList.Length; i++) {
-			string name = objectList[i].name.ToLower();
-			for (int pos=0;pos<name.Length-namepart.Length;pos++){
-				for (int j=0;j<namepart.Length;j++){
-					if (namepart[j]==name[pos+j]){
-						like=true;
+		bool like = false;
+		for (int i=0; i < objectList.Length; i++) 
+        {
+			string name = objectList[i].nameWithNumber.ToLower();
+			for (int pos = 0; pos <= name.Length-namepart.Length;pos++)
+            {
+				for (int j=0; j < namepart.Length; j++)
+                {
+					if (namepart[j] == name[pos + j])
+                    {
+						like = true;
 					}
-					else {
-						like=false;
+					else 
+                    {
+						like = false;
 						break;
 					}
 				}
-				if (like){
-					search.Add(objectList[i].name);
-					like=false;
+				if (like)
+                {
+                    search.Add(objectList[i].nameWithNumber);
+					like = false;
 					break;
 				}
 			}
@@ -321,20 +303,21 @@ public class MainController : MonoBehaviour {
 		if (search.Count > 0) {
 			return search.ToArray ();
 		} 
-		//else search.Add("По вашему запросу ничего не найдено");				
         else
         {
             foreach (var item in objectList)
             {
-                search.Add(item.name);
+                search.Add(item.nameWithNumber);
             }
         }
 		return search.ToArray ();
 	}
 
-	private void sortByName() {
+	private void sortByName() 
+    {
 		string[] names = new string[objectList.Length];
-		for (int i=0;i<objectList.Length;i++){
+		for (int i=0;i<objectList.Length;i++)
+        {
 			names[i]=objectList[i].name;
 		}
 	}
@@ -350,7 +333,8 @@ public class MainController : MonoBehaviour {
 	}
 	public void TranslatetoObject(string objectName){
 		for (int i=0; i<objectList.Length; i++) {
-			if (objectList[i].name.ToLower()==objectName.ToLower()){
+            if (objectList[i].nameWithNumber.ToLower() == objectName.ToLower())
+            {
 				TranslatetoObject(i);
 				break;
 			}
@@ -373,14 +357,14 @@ public class MainController : MonoBehaviour {
     }
 
 	public void TranslatetoObject(int objectID){
-
+        user.Track(objectList[objectID].po_transform);
 		Hashtable ht = new Hashtable ();
 		ht.Add ("x", objectList [objectID].po_transform.position.x);
 		ht.Add ("z", objectList [objectID].po_transform.position.z);
 		//ht.Add ("looktarget",objectList[objectID].po_transform);
-		ht.Add ("time", 2f);
-		ht.Add ("easetype", iTween.EaseType.easeOutCubic);
-		Debug.Log (objectList [objectID].po_transform.name);
+		ht.Add ("time",1.25f);		
+        ht.Add ("easetype", iTween.EaseType.easeOutCubic);
+		//Debug.Log (objectList [objectID].po_transform.name);
 		//ht.Add ("onstart","SetTapDetecting");
 		//ht.Add ("onstartparams", false);
 		//ht.Add ("oncomplete","SetTapDetecting");
@@ -391,7 +375,7 @@ public class MainController : MonoBehaviour {
 			Hashtable par = new Hashtable();
 			par.Add("from",GetComponent<Camera> ().orthographicSize);
 			par.Add("to",Screen.height / 2f * 2f);
-			par.Add("time",2f);
+            par.Add("time", 1.25f);
 			//ht.Add ("easetype", iTween.EaseType.easeOutCubic);
 			par.Add("onupdate","SetOrthoSize");
 			iTween.ValueTo(gameObject,par);

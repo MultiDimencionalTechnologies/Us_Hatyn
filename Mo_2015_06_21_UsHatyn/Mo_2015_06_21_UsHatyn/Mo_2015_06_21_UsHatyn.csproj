@@ -112,10 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\MVVM\View\Resources\Fonts\1_ARIALSA.ttf" />
-    <Resource Include="Assets\MVVM\View\Resources\Fonts\segoeui.ttf">
-      <All>True</All>
-      <AutoFill>True</AutoFill>
-    </Resource>
     <Resource Include="Assets\MVVM\View\Resources\Images\aeb.jpg" />
     <Resource Include="Assets\MVVM\View\Resources\Images\MDTLOGO.png" />
   </ItemGroup>
