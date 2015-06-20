@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F5B797B0-1E1A-4DAC-AD34-696B005D8B3E}</ProjectGuid>
+    <ProjectGuid>f5b797b0-1e1a-4dac-ad34-696b005d8b3e</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mo_2015_06_21_UsHatyn</RootNamespace>
@@ -57,10 +57,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Assets\MVVM\View\PlaneViewControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Assets\MVVM\View\Resources\Resources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,9 +71,6 @@
     </Compile>
     <Compile Include="Assets\MVVM\View\CameraViewControl.xaml.cs">
       <DependentUpon>CameraViewControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Assets\MVVM\View\PlaneViewControl.xaml.cs">
-      <DependentUpon>PlaneViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

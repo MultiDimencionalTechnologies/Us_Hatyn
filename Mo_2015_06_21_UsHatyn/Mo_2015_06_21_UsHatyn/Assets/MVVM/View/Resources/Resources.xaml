@@ -292,7 +292,7 @@
 				<ColumnDefinition Width="13*"/>
 			</Grid.ColumnDefinitions>
 			<ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.RowSpan="1"/>
-			<Slider x:Name="Slider" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" Maximum="{TemplateBinding ScrollableHeight}" Value="{TemplateBinding VerticalOffset}" IsDirectionReversed="True" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Template="{DynamicResource SliderControlTemplate1}" Width="19"/>
+			<Slider x:Name="Slider" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" Orientation="Vertical" Maximum="{TemplateBinding ScrollableHeight}" Value="{TemplateBinding VerticalOffset}" IsDirectionReversed="True" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Template="{DynamicResource SliderControlTemplate1}" Width="19" IsEnabled="False"/>
 
 		</Grid>
 	</ControlTemplate>
@@ -301,7 +301,13 @@
 		<Setter Property="Foreground" Value="Black"/>
 		<Setter Property="FontFamily" Value="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode"/>
 		<Setter Property="FontSize" Value="30"/>
-		<Setter Property="Padding" Value="0,5"/>
+		<Setter Property="Padding" Value="0,10"/>
+		<!--<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type TextBlock}">
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>-->
 	</Style>
 
 
@@ -359,6 +365,87 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
+	<ControlTemplate x:Key="GoToPositionButtonTemplate" TargetType="{x:Type Button}">
+		<Viewbox Stretch="Uniform">
+			<Grid Height="100" Width="100">
+				<Rectangle Fill="#FFEF9B3F" HorizontalAlignment="Stretch" Stroke="{x:Null}" VerticalAlignment="Stretch" RadiusY="22.5" RadiusX="22.5"/>
+				<Ellipse Fill="{x:Null}" HorizontalAlignment="Center" Height="53.333" Stroke="White" VerticalAlignment="Center" Width="53.333" StrokeThickness="5"/>
+				<Rectangle Fill="White" HorizontalAlignment="Center" Height="27" RadiusY="4" RadiusX="4" Stroke="{x:Null}" VerticalAlignment="Top" Width="7" Margin="0,8,0,0"/>
+				<Rectangle Fill="White" HorizontalAlignment="Center" Height="27" RadiusY="4" RadiusX="4" Stroke="{x:Null}" VerticalAlignment="Bottom" Width="7" Margin="0,0,0,8"/>
+				<Rectangle Fill="White" HorizontalAlignment="Right" Height="27" RadiusY="4" RadiusX="4" Stroke="{x:Null}" VerticalAlignment="Center" Width="7" RenderTransformOrigin="0.5,0.5" Margin="0,0,19,0">
+					<Rectangle.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform/>
+							<SkewTransform/>
+							<RotateTransform Angle="90"/>
+							<TranslateTransform/>
+						</TransformGroup>
+					</Rectangle.RenderTransform>
+				</Rectangle>
+				<Rectangle Fill="White" HorizontalAlignment="Left" Height="27" RadiusY="4" RadiusX="4" Stroke="{x:Null}" VerticalAlignment="Center" Width="7" RenderTransformOrigin="0.5,0.5" Margin="19,0,0,0">
+					<Rectangle.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform/>
+							<SkewTransform/>
+							<RotateTransform Angle="90"/>
+							<TranslateTransform/>
+						</TransformGroup>
+					</Rectangle.RenderTransform>
+				</Rectangle>
+			</Grid>
+		</Viewbox>
+	</ControlTemplate>
+	<Style x:Key="RectangleStyle1" TargetType="{x:Type Rectangle}">
+		<Setter Property="Fill" Value="#FF838383"/>
+		<Setter Property="Width" Value="Auto"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="Height" Value="2"/>
+		<Setter Property="Stroke" Value="#FF838383"/>
+		<Setter Property="VerticalAlignment" Value="Top"/>
+	</Style>
+	<ControlTemplate x:Key="IncreaseButtonTemplate" TargetType="{x:Type Button}">
+		<Viewbox Stretch="Uniform">
+			<Grid Height="100" Width="100">
+				<Rectangle Fill="#FFEF9B3F" HorizontalAlignment="Stretch" Stroke="{x:Null}" VerticalAlignment="Stretch" RadiusY="22.5" RadiusX="22.5"/>
+				<Rectangle Fill="White" HorizontalAlignment="Center" Height="80" RadiusY="4" RadiusX="4" Stroke="{x:Null}" VerticalAlignment="Center" Width="15"/>
+				<Rectangle Fill="White" HorizontalAlignment="Center" Height="80" RadiusY="4" RadiusX="4" Stroke="{x:Null}" VerticalAlignment="Center" Width="15" RenderTransformOrigin="0.5,0.5">
+					<Rectangle.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform/>
+							<SkewTransform/>
+							<RotateTransform Angle="90"/>
+							<TranslateTransform/>
+						</TransformGroup>
+					</Rectangle.RenderTransform>
+				</Rectangle>
+			</Grid>
+		</Viewbox>
+	</ControlTemplate>
+	<ControlTemplate x:Key="DecreaseButtonTemplate" TargetType="{x:Type Button}">
+		<Viewbox Stretch="Uniform">
+			<Grid Height="100" Width="100">
+				<Rectangle Fill="#FFEF9B3F" HorizontalAlignment="Stretch" Stroke="{x:Null}" VerticalAlignment="Stretch" RadiusY="22.5" RadiusX="22.5"/>
+				<Rectangle Fill="White" HorizontalAlignment="Center" Height="80" RadiusY="4" RadiusX="4" Stroke="{x:Null}" VerticalAlignment="Center" Width="15" RenderTransformOrigin="0.5,0.5">
+					<Rectangle.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform/>
+							<SkewTransform/>
+							<RotateTransform Angle="90"/>
+							<TranslateTransform/>
+						</TransformGroup>
+					</Rectangle.RenderTransform>
+				</Rectangle>
+			</Grid>
+		</Viewbox>
+	</ControlTemplate>
+	<ControlTemplate x:Key="JuneButtonsTemplate" TargetType="{x:Type Button}">
+		<Viewbox Stretch="Uniform">
+			<Grid Height="39.73" Width="247.5">
+				<Rectangle Fill="{TemplateBinding Background}" RadiusY="12" RadiusX="12" Stroke="{x:Null}"/>
+				<Label Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
+			</Grid>
+		</Viewbox>
+	</ControlTemplate>
 
 	
 

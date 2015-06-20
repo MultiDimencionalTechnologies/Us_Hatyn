@@ -49,10 +49,16 @@
      <Compile Include="Assets\MVVM\View\CameraViewControl.cs" />
      <Compile Include="Assets\MVVM\View\CameraViewControl.xaml.cs" />
      <Compile Include="Assets\MVVM\View\PlaneViewControl.cs" />
-     <Compile Include="Assets\MVVM\View\PlaneViewControl.xaml.cs" />
+     <Compile Include="Assets\Scripts\AppState.cs" />
+     <Compile Include="Assets\Scripts\Loader.cs" />
+     <Compile Include="Assets\Scripts\MainController.cs" />
+     <Compile Include="Assets\Scripts\PointObject.cs" />
+     <Compile Include="Assets\Scripts\Tracker.cs" />
      <None Include="Assets\Editor\NoesisGUI\assets.txt" />
-     <None Include="Assets\Resources\AEBText.txt" />
+     <None Include="Assets\Resources\ru.txt" />
+     <None Include="Assets\Resources\file.txt" />
      <None Include="Assets\Editor\NoesisGUI\version.txt" />
+     <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

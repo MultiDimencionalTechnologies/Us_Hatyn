@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Noesis;
 using System.Text;
@@ -20,6 +20,7 @@ namespace Mo_2015_06_21_UsHatyn
 
         public class MiniPanel
         {
+            public bool isMiniPanelVisible = false;
             public void ShowMiniPanel(float percentX, float percentY, string titleText, string imageSource, string panelText)
             {
                 HideMiniPanel();
@@ -48,11 +49,21 @@ namespace Mo_2015_06_21_UsHatyn
                     setRightTopPosition(percentX, percentY);
                     rightTopShowMiniPanel();
                 }
-
+                
                 Texture2D  texture = UnityEngine.Resources.Load("Images/" + imageSource) as Texture2D;
-                TextureSource source = new TextureSource(texture);
-                CameraViewControl.Instance.rightPanelImage.Source = source;
-                CameraViewControl.Instance.leftPanelImage.Source = source;
+                if (texture != null)
+                {
+                    TextureSource source = new TextureSource(texture);
+                    CameraViewControl.Instance.rightPanelImage.Source = source;
+                    CameraViewControl.Instance.leftPanelImage.Source = source;
+                }
+                else
+                {
+                    texture = UnityEngine.Resources.Load("Images/Objects/splashImage") as Texture2D;
+                    TextureSource source = new TextureSource(texture);
+                    CameraViewControl.Instance.rightPanelImage.Source = source;
+                    CameraViewControl.Instance.leftPanelImage.Source = source;
+                }
 
                 CameraViewControl.Instance.rightPanelTextBlock.Text = panelText;
                 CameraViewControl.Instance.leftPanelTextBlock.Text = panelText;
@@ -60,13 +71,7 @@ namespace Mo_2015_06_21_UsHatyn
                 CameraViewControl.Instance.rightPanelTitleTextBlock.Text = titleText;
                 CameraViewControl.Instance.leftPanelTitleTextBlock.Text = titleText;
 
-                //CameraViewControl.Instance.smallRightPanelScrollBar.ViewportSize = 30 * CameraViewControl.Instance.smallRightPanelScrollViewer.ScrollableHeight / (CameraViewControl.Instance.smallRightPanelScrollViewer.Height - 30);
-                //CameraViewControl.Instance.smallLeftPanelScrollBar.ViewportSize = 30 * CameraViewControl.Instance.smallLeftPanelScrollViewer.ScrollableHeight / (CameraViewControl.Instance.smallLeftPanelScrollViewer.Height - 30);
-
-                //Debug.Log(CameraViewControl.Instance.smallRightPanelScrollViewer.ScrollableHeight.ToString());
-
-                //Debug.Log(CameraViewControl.Instance.smallLeftPanelScrollBar.ViewportSize.ToString());
-                //Debug.Log(CameraViewControl.Instance.smallRightPanelScrollBar.ViewportSize.ToString());
+                isMiniPanelVisible = true;
             }
             public void HideMiniPanel()
             {
@@ -86,6 +91,7 @@ namespace Mo_2015_06_21_UsHatyn
                 {
                     rightBottomHideMiniPanel();
                 }
+                isMiniPanelVisible = false;
             }
             public void ChangeMiniPanelPosition(float percentX, float percentY)
             {
@@ -330,9 +336,11 @@ namespace Mo_2015_06_21_UsHatyn
 
         private Storyboard smallRightPanelShow;
         private Storyboard smallLeftPanelShow;
-        private bool isInfoPanelShow = false;
+        public bool isInfoPanelShow = false;
         private Button CloseSmallRightPanelButton;
         private Button CloseSmallLeftPanelButton;
+        public bool isRightPanelShow = false;
+        public bool isLeftPanelShow = false;
 
         private Image rightPanelImage;
         private Image leftPanelImage;
@@ -348,15 +356,12 @@ namespace Mo_2015_06_21_UsHatyn
         private TextBox searchTextBox;
         private StackPanel searchStackPanel;
 
-        private ScrollViewer smallRightPanelScrollViewer;
-        private ScrollViewer smallLeftPanelScrollViewer;
-
-        private ScrollBar smallRightPanelScrollBar;
-        private ScrollBar smallLeftPanelScrollBar;
-
         private Image AEBImage;
 
         private List<Button> ListOfButtons = new List<Button>();
+        private MainController mainController = Camera.main.GetComponent<MainController>();
+
+        private bool is27JuneVisible = true;
 
         public void OnPostInit()
         {
@@ -409,29 +414,16 @@ namespace Mo_2015_06_21_UsHatyn
             rightPanelTitleTextBlock = FindName("RightPanelTitleTextBlock") as TextBlock;
             leftPanelTitleTextBlock = FindName("LeftPanelTitleTextBlock") as TextBlock;
 
-            smallRightPanelScrollViewer = FindName("SmallRightPanelScrollViewer") as ScrollViewer;
-            smallLeftPanelScrollViewer = FindName("SmallLeftPanelScrollViewer") as ScrollViewer;
-
-            smallRightPanelScrollBar = smallRightPanelScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
-            smallLeftPanelScrollBar = smallLeftPanelScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
-
             searchStackPanel = FindName("searchStackPanel") as StackPanel;
             searchTextBox = FindName("textBox") as TextBox;
 
             searchTextBox.TextChanged += textBox_TextChanged;
             searchTextBox.LostKeyboardFocus += searchTextBox_LostKeyboardFocus;
 
-            var button = FindName("button") as Button;
-            button.Click += button_Click;
-
-            var marker_button = FindName("marker_button") as Button;
-
-            marker_button.Click += marker_button_Click;
-
             AEBImage = FindName("AEBImage") as Image;
             AEBImage.MouseLeftButtonDown += AEBImage_MouseLeftButtonDown;
 
-            for (int i = 1; i <= 76; i++)
+            for (int i = 1; i <= 86; i++)
             {
                 var goToProgramButton = FindName("GoToProgramButton_" + i.ToString()) as Button;
                 ListOfButtons.Add(goToProgramButton);
@@ -441,35 +433,159 @@ namespace Mo_2015_06_21_UsHatyn
             {
                 item.Click += item_Click;
             }
+
+            (FindName("SearchButton") as Button).Click += SearchButton_Click;
+            (FindName("BackButton") as Button).Click += BackButton_Click;
+            (FindName("MenuButton") as Button).Click += MenuButton_Click;
+            (FindName("HistoryButton") as Button).Click += HistoryButton_Click;
+            (FindName("AboutAppButton") as Button).Click += AboutAppButton_Click;
+            (FindName("ProgramButton") as Button).Click += ProgramButton_Click;
+            (FindName("CloseBigRightPanelButton") as Button).Click += CloseBRP_Click;
+            (FindName("GoToPositionButton") as Button).Click += GoToPositionButton_Click;
+            (FindName("IncreaseButton") as Button).Click += IncreaseButton_Click;
+            (FindName("DecreaseButton") as Button).Click += DecreaseButton_Click;
+            (FindName("_27JuneButton") as Button).Click += _27JuneButton_Click;
+            (FindName("_28JuneButton") as Button).Click += _28JuneButton_Click;
+            (FindName("TouchingRectangle") as Rectangle).MouseLeftButtonDown += CameraViewControl_MouseLeftButtonDown;
+            (FindName("TouchingRectangle") as Rectangle).MouseLeftButtonUp +=CameraViewControl_MouseLeftButtonUp;
+            (FindResource("Wait") as Storyboard).Completed += CameraViewControl_Completed;
         }
-              
+
+        private void CameraViewControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            (FindResource("Wait") as Storyboard).Begin();
+        }
+
+        void CameraViewControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            mainController.flag = true;
+            mainController.touch = Input.touches[0];
+            mainController.prevPosition = mainController.touch.position;
+            mainController.tapTimer = 0;
+        }
+
+        void CameraViewControl_Completed(object sender, TimelineEventArgs e)
+        {
+            mainController.flag = false;
+            //Debug.Log(mainController.flag);
+        }
+
+        private void _28JuneButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (is27JuneVisible)
+            {
+                (FindResource("_28JuneButtonClick") as Storyboard).Begin();
+                is27JuneVisible = false;
+            }
+        }
+
+        void _27JuneButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!is27JuneVisible)
+            {
+                (FindResource("_27JuneButtonClick") as Storyboard).Begin();
+                is27JuneVisible = true;
+            }
+        }
+
+        void DecreaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainController.ZoomOut();
+        }
+
+        void IncreaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainController.ZoomIn();
+        }
+
+        private void GoToPositionButton_Click(object sender, RoutedEventArgs e)
+        {
+            mainController.GoToUserPosition();
+        }
+
+        void AboutAppButton_Click(object sender, RoutedEventArgs e)
+        {
+            UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.About);
+        }
+
+        void HistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Hist);
+        }
+
+        void CloseBRP_Click(object sender, RoutedEventArgs e)
+        {
+            if (AppState.InAppState == AppState.EAppState.AEBMenu)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Menu);
+                return;                       
+            }
+            if (AppState.InAppState == AppState.EAppState.AEBSearch)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Search);
+                return;
+            }
+            UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Menu);
+        }
+
+        void ProgramButton_Click(object sender, RoutedEventArgs e)
+        {
+            UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Prog);
+        }
+
+        void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Menu);
+        }
+
+        void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Main);
+        }
+
+        void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Search);
+        }     
 
         void item_Click(object sender, RoutedEventArgs e)
         {
+			if (((Button)sender).Content == null) {
+				return;
+			}
+			int id = int.Parse( ((Button)sender).Content.ToString ()) - 1;
+			mainController.TranslatetoObject (id);
             //Debug.Log(((Button)sender).Content.ToString());
             // ВЫЗОВ МЕТОДА АНИМАЦИИ ПЕРЕХОДА К ОБЪЕКТУ
         }
 
         void AEBImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ((Image)sender).MouseLeftButtonUp += CameraViewControl_MouseLeftButtonUp;
+            ((Image)sender).MouseLeftButtonUp += AEBImage_MouseLeftButtonUp;
         }
 
-        void CameraViewControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void AEBImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (AppState.InAppState == AppState.EAppState.Search)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.AEBSearch);
+            }
+            if (AppState.InAppState == AppState.EAppState.Menu)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.AEBMenu);
+            }
             (FindResource("AEBShow") as Storyboard).Begin();
-            aebShowPanel("aeb","\nАлмазэргиэнбанк – крупнейший банк Республики Саха (Якутия), работающий на рынке финансовых услуг более 20 лет.\nВ структуру Банка входит 14 дополнительных офисов, расположенных в двенадцати улусах республики и 7 операционных офисов в городе Якутске. Банк имеет представительства в Москве, Санкт-Петербурге, Владивостоке, а также офис в Хабаровске. Алмазэргиэнбанк имеет свой процессинговый центр, в котором обслуживаются более 150 торгово-сервисных предприятий и более 80 тысяч эмитированных Банком карт.\nКлиентами банка являются более 15 тысяч предприятий и индивидуальных предпринимателей Якутии и Дальнего Востока. Ежегодно Алмазэргиэнбанк обслуживает свыше трехсот тысяч частных лиц.\nПриоритетными направлениями деятельности Алмазэргиэнбанка являются кредитование корпоративных клиентов и привлечение денежных средств населения во вклады, реализацию инвестиционной политики и крупных инфраструктурных проектов, направленных на повышение уровня и качества жизни якутян.\n\n\n","АКБ \"АЛМАЗЭРГИЭНБАНК\" ОАО");
         }
 
         void textBox_TextChanged(object sender, RoutedEventArgs e)
         {
+			searchStackPanel.Children.Clear ();
             //CreateTextBlockInSearch((i++).ToString());
-            CreateTextBlockInSearch("qwertyuiopasdfghjkl;zxcvbnm,1234567890");
+            //CreateTextBlockInSearch("blabla");
+			CreateTextBlockInSearch(mainController.FindByName (searchTextBox.Text));
             //Здесь нужно вызвать метод CreateTextBlockInSearchs
-
-            var searchScrollViewer = FindName("searchScrollViewer") as ScrollViewer;
-            var searchScrollBar = searchScrollViewer.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
-            searchScrollBar.ViewportSize = 30 * searchScrollViewer.ScrollableHeight / (searchScrollViewer.Height - 30);
+            //CreateTextBlockInSearch("qwertyuiopasdfghjkl;zxcvbnm,1234567890");
+            //Здесь нужно вызвать метод CreateTextBlockInSearchs
         }
 
         void searchTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -485,6 +601,10 @@ namespace Mo_2015_06_21_UsHatyn
             textBlock.Text = text;
             searchStackPanel.Children.Add(textBlock);
             textBlock.MouseLeftButtonDown += textBlock_MouseLeftButtonDown;
+            Rectangle rect = new Rectangle();
+            Style rectStyle = FindResource("RectangleStyle1") as Style;
+            rect.Style = rectStyle;
+            searchStackPanel.Children.Add(rect);
         }
 
         void aebShowPanel(string imageSource, string panelText, string titleText)
@@ -524,21 +644,74 @@ namespace Mo_2015_06_21_UsHatyn
         void textBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             searchTextBox.Text = ((TextBlock)sender).Text;
+			mainController.TranslatetoObject (((TextBlock)sender).Text);
             //ВЫЗОВ МЕТОДА АНИМАЦИИ ПЕРЕХОДА К ОБЪЕКТУ
         }
 
         void CloseInfoPanelButtonClick(object sender, RoutedEventArgs e)
         {
             isInfoPanelShow = false;
-            (FindResource("AEBHide") as Storyboard).Begin();
+            if (AppState.InAppState == AppState.EAppState.Object)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Main);
+                return;
+            }
+            if (AppState.InAppState == AppState.EAppState.AEBSearch)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Search);
+                return;
+            }
+            if (AppState.InAppState == AppState.EAppState.AEBMenu)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Menu);
+                return;
+            }
+            if (AppState.InAppState == AppState.EAppState.MenuObject)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Menu);
+                return;
+            }
+            if (AppState.InAppState == AppState.EAppState.SearchObject)
+            {
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Search);
+                return;
+            }
+            if (isRightPanelShow)
+            {
+                (FindResource("SmallRightPanelHide") as Storyboard).Begin();
+                isRightPanelShow = false;
+                return;
+            }
+            if (isLeftPanelShow)
+            {
+                (FindResource("SmallLeftPanelHide") as Storyboard).Begin();
+                isLeftPanelShow = false;
+                return;
+            }
         }
 
         void rightMiniPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!isInfoPanelShow)
+            if (!isInfoPanelShow && AppState.InAppState != AppState.EAppState.Menu && AppState.InAppState != AppState.EAppState.Search)
             {
                 smallLeftPanelShow.Begin();
                 isInfoPanelShow = true;
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Object);
+                isLeftPanelShow = true;
+            }
+            if (!isInfoPanelShow && AppState.InAppState == AppState.EAppState.Search)
+            {
+                smallRightPanelShow.Begin();
+                isInfoPanelShow = true;
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.SearchObject);
+                isRightPanelShow = true;
+            }
+            if (!isInfoPanelShow && AppState.InAppState == AppState.EAppState.Menu)
+            {
+                smallRightPanelShow.Begin();
+                isInfoPanelShow = true;
+                UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.MenuObject);
+                isRightPanelShow = true;
             }
         }
 
@@ -547,18 +720,21 @@ namespace Mo_2015_06_21_UsHatyn
             if (!isInfoPanelShow)
             {
                 smallRightPanelShow.Begin();
-                isInfoPanelShow = true;                       
+                isInfoPanelShow = true;
+                if (AppState.InAppState == AppState.EAppState.Main)
+                {
+                    UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.Object);
+                }
+                if (AppState.InAppState == AppState.EAppState.Search)
+                {
+                    UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.SearchObject);
+                }
+                if (AppState.InAppState == AppState.EAppState.Menu)
+                {
+                    UnityEngine.GameObject.FindObjectOfType<AppState>().ChangeAppState(AppState.EAppState.MenuObject);
+                }
+                isRightPanelShow = true;
             }
-        }
-
-        void marker_button_Click(object sender, RoutedEventArgs e)
-        {
-            MarkerObject.SetMarkerPosition(float.Parse((FindName("x_marker") as TextBox).Text), float.Parse((FindName("y_marker") as TextBox).Text));
-        }
-
-        void button_Click(object sender, RoutedEventArgs e)
-        {
-            MiniPanelObject.ShowMiniPanel(float.Parse((FindName("x") as TextBox).Text), float.Parse((FindName("y") as TextBox).Text), (FindName("text") as TextBox).Text, (FindName("x_Copy") as TextBox).Text, (FindName("y_Copy") as TextBox).Text);
         }
     }
 }
