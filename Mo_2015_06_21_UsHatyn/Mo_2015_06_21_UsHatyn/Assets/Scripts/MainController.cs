@@ -8,8 +8,6 @@ using System.Text;
 
 public class MainController : MonoBehaviour {
 
-    int spaceobj=0;
-
 	private bool detecttap = true;
     public bool flag = false;
 
@@ -126,7 +124,6 @@ public class MainController : MonoBehaviour {
 
 		//user.Track(user.target1);
         CameraViewControl.Instance.CreateTextBlockInSearch(FindByName(""));
-        CameraViewControl.Instance.MarkerObject.MarkerVisibility = true;
 	}
 
 	private void Update()
@@ -137,13 +134,13 @@ public class MainController : MonoBehaviour {
 				if (Input.touchCount == 1) {
 					touch = Input.touches [0];
 					switch (touch.phase) {
-					case TouchPhase.Stationary:
+					/*case TouchPhase.Stationary:
                         tapTimer += Time.deltaTime;
 						if (tapTimer >= 1) {
 							Ray ray = Camera.main.ScreenPointToRay (touch.position);
 							user.transform.position = ray.GetPoint(10);
 						}
-						break;
+						break;*/
 					case TouchPhase.Moved:
 						if (!move) 
                         {
@@ -219,7 +216,7 @@ public class MainController : MonoBehaviour {
 
 	private void LateUpdate()
 	{
-		Vector3 userScreenPosition=Camera.main.WorldToScreenPoint(user.transform.position);
+		Vector3 userScreenPosition = Camera.main.WorldToScreenPoint(user.transform.position);
 		CameraViewControl.Instance.MarkerObject.SetMarkerPosition(100f*userScreenPosition.x/Screen.width,100f*userScreenPosition.y/Screen.height);
 		if (currentID != -1) {
 			Vector3 objectScreenPosition = Camera.main.WorldToScreenPoint(objectList[currentID].po_transform.position);
