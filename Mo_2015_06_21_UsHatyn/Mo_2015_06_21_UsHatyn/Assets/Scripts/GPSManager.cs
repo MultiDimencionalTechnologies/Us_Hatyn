@@ -10,8 +10,8 @@ public class GPSManager : MonoBehaviour {
     private LocationInfo loc;
     private float leftBorder = 129.758975f;
     private float rightBorder = 129.810922f;
-    private float topBorder = 62.191590f;
-    private float bottomBorder = 62.191590f;
+    private float topBorder = 62.203114f;
+    private float bottomBorder = 62.186340f;
     private MainController mController;
     private Vector3 buff;
 
@@ -65,6 +65,10 @@ public class GPSManager : MonoBehaviour {
             buff.z = CoordinatesConverter.ConvertYFromRealToUnity(loc.latitude);
             buff.y = 0f;
             mController.user.transform.position = buff;
+            if (mController.currentID != -1 && mController.user.tracking)
+            {
+                mController.user.Track(mController.objectList[mController.currentID].po_transform);
+            }
         }
         //(CameraViewControl.Instance.FindName("DebugTextBlock") as Noesis.TextBlock).Text = "X: " + loc.longitude.ToString() + "//Y: " + loc.latitude.ToString();
     }
