@@ -2330,10 +2330,10 @@
 				</Grid>
 			</Canvas>
 			<Grid Height="83.3" Width="1281" Canvas.Top="716.7">
-				<TextBlock x:Name="GPSTextBlock" TextWrapping="Wrap" Text="Включите геопозиционирование в настройках телефона" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="29.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" Opacity="0"/>
-				<TextBlock x:Name="TooFarTextBlock" TextWrapping="Wrap" Text="Вы слишком далеко" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="29.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" Opacity="0"/>
-				<TextBlock x:Name="FindingTextBlock" TextWrapping="Wrap" Text="Мы пытаемся найти вас" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="29.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" Opacity="0"/>
-				<TextBlock x:Name="CantFindTextBlock" TextWrapping="Wrap" Text="Не удалось определить местоположение" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="29.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" Opacity="0"/>
+				<TextBlock x:Name="GPSTextBlock" TextWrapping="Wrap" Text="Включите геопозиционирование в настройках телефона" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="37.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" d:IsHidden="True" Opacity="0"/>
+				<TextBlock x:Name="TooFarTextBlock" TextWrapping="Wrap" Text="Вы слишком далеко" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="37.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" d:IsHidden="True" Visibility="Hidden" Opacity="0"/>
+				<TextBlock x:Name="FindingTextBlock" TextWrapping="Wrap" Text="Мы пытаемся найти вас" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="37.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" d:IsHidden="True" Visibility="Hidden" Opacity="0"/>
+				<TextBlock x:Name="CantFindTextBlock" TextWrapping="Wrap" Text="Не удалось определить местоположение" FontFamily="/Mo_2015_06_21_UsHatyn;component/Assets/MVVM/View/Resources/Fonts/#Arial Sakha Unicode" FontSize="37.333" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" d:IsHidden="True" Visibility="Hidden" Opacity="0"/>
 			</Grid>
 		</Canvas>
 	</Viewbox>
