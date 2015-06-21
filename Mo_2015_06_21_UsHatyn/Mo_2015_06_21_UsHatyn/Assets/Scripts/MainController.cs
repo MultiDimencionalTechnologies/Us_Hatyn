@@ -143,7 +143,7 @@ public class MainController : MonoBehaviour {
 						} 
                         else 
                         {
-							gameObject.transform.Translate (-touch.deltaPosition * 3);
+							gameObject.transform.Translate (-touch.deltaPosition * 3 * GetComponent<Camera> ().orthographicSize/Screen.height);
 							checkBorders ();
 						}
 						break;

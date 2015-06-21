@@ -1,12 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainController.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainController.cs" Line="28" Column="54" />
-      <File FileName="Assets\Scripts\AppState.cs" Line="1" Column="1" />
-      <File FileName="Assets\MVVM\View\CameraViewControl.cs" Line="674" Column="2" />
-      <File FileName="Assets\Resources\file.txt" Line="23" Column="16" />
-      <File FileName="Assets\Resources\ru.txt" Line="46" Column="16" />
+      <File FileName="Assets\Scripts\MainController.cs" Line="146" Column="121" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
