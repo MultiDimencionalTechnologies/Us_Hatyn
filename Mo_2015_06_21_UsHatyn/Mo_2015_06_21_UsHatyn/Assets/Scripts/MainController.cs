@@ -115,6 +115,7 @@ public class MainController : MonoBehaviour {
 			theReader.Close();
 		}
         CameraViewControl.Instance.CreateTextBlockInSearch(FindByName(""));
+        //CameraViewControl.Instance.MarkerObject.MarkerVisibility = true;
 	}
 
 	private void Update()

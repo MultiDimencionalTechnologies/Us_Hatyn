@@ -446,6 +446,23 @@
 			</Grid>
 		</Viewbox>
 	</ControlTemplate>
+	<ControlTemplate x:Key="CloseBottomPanel" TargetType="{x:Type Button}">
+		<Viewbox Stretch="Uniform">
+			<Grid Height="20" Width="20">
+				<Rectangle Fill="#FFEF9B3F" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20"/>
+				<Path Fill="White" Width="Auto" Data="M11.825207,0 L11.990503,7.1035737 19.096001,7.1035737 19.096001,12.103574 12.10685,12.103574 12.26944,19.090832 7.270793,19.207148 7.1054969,12.103574 0,12.103574 0,7.1035737 6.9891496,7.1035737 6.82656,0.11631536 z" Height="Auto" RenderTransformOrigin="0.499999982788948,0.5" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center">
+					<Path.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform/>
+							<SkewTransform/>
+							<RotateTransform Angle="135"/>
+							<TranslateTransform/>
+						</TransformGroup>
+					</Path.RenderTransform>
+				</Path>
+			</Grid>
+		</Viewbox>
+	</ControlTemplate>
 
 	
 
