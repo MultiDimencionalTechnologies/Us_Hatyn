@@ -56,7 +56,6 @@
      <Compile Include="Assets\Scripts\Tracker.cs" />
      <None Include="Assets\Editor\NoesisGUI\assets.txt" />
      <None Include="Assets\Resources\ru.txt" />
-     <None Include="Assets\Resources\file.txt" />
      <None Include="Assets\Editor\NoesisGUI\version.txt" />
      <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
  <Reference Include="UnityEngine.UI">

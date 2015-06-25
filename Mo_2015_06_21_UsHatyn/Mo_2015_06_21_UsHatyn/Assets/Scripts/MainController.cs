@@ -21,17 +21,14 @@ public class MainController : MonoBehaviour {
 	public RaycastHit rh = new RaycastHit();
 	public int currentID = -1;
     public Touch touch;
-	public PointObject[] objectList = new PointObject[23];
+	public PointObject[] objectList = new PointObject[35];
 	private float orthographicSize;
     private Vector3 buffX;
     public TextAsset[] Texts;
 /*-----------------------------------START BLOCK----------------------------------------------------*/
     private void copyFilesFromResourcesToPersistentDataPath()
     {
-        string buffer = (Resources.Load<TextAsset>("file") as TextAsset).text;
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/" + "Objects.txt", buffer, System.Text.Encoding.Unicode);
-	
-        buffer = (Resources.Load<TextAsset>("ru") as TextAsset).text;
+		string buffer = (Resources.Load<TextAsset>("ru") as TextAsset).text;
         System.IO.File.WriteAllText(Application.persistentDataPath + "/" + "ru.txt", buffer, System.Text.Encoding.Unicode); 
     }
 /*--------------------------------------END BLOCK-----------------------------------------------------------------*/
@@ -54,16 +51,21 @@ public class MainController : MonoBehaviour {
 	private void SetOrthoSize(float newsize){
 		GetComponent<Camera>().orthographicSize = newsize;
         checkBorders();
+        checkTranslate();
 	}
 
 	private void Start()
 	{
+
 /*---------------------------------START BLOCK----------------------------------------------------*/
+		/*
         copyFilesFromResourcesToPersistentDataPath();   
 		//Создание массива объектов из текстовых файлов
         string fileName = Application.persistentDataPath + "/" + "Objects.txt";
 		StreamReader theReader = new StreamReader(fileName, Encoding.Default);
+		*/
 /*-----------------------------END BLOCK----------------------------------------------------*/
+		/*
 		string line;
 		using (theReader) {
 			do
@@ -74,7 +76,7 @@ public class MainController : MonoBehaviour {
 					int id = int.Parse(entries[0]);
 					float X = float.Parse(entries[1]);
 					float Y = float.Parse(entries[2]);
-					PointObject npo = new PointObject(id,X,Y);
+					PointObject npo = new PointObject(id);
 					objectList[id - 1] = npo;
 					objectList[id-1].imagePath = "Objects/"+(id).ToString();
 					if (GameObject.Find(id.ToString())){
@@ -85,37 +87,50 @@ public class MainController : MonoBehaviour {
 			while (line != null);			   
 			theReader.Close();
 		}
-		
+		*/
 /*---------------------------START BLOCK----------------------------------------------------*/
-        fileName = Application.persistentDataPath + "/" + "ru.txt";
-		theReader = new StreamReader(fileName, Encoding.Default);
+		copyFilesFromResourcesToPersistentDataPath();
+		string fileName = Application.persistentDataPath + "/" + "ru.txt";
+		StreamReader theReader = new StreamReader(fileName, Encoding.Unicode);
+		string line;
+		//string text;
+		//bool pulling;
 /*------------------------------END BLOCK----------------------------------------------------*/
 		using (theReader)
 		{
+			int id=0;
+			PointObject npo;
 			// While there's lines left in the text file, do this:
 			do
 			{
 				line = theReader.ReadLine();
 				if (line != null)
-				{	string[] entries = line.Split(';');
-					int id =int.Parse(entries[0]);
-					objectList[id-1].id=id;
-					string name = entries[1];
-					objectList[id-1].name=name;
-                    objectList[id - 1].nameWithNumber = id.ToString() + "." + objectList[id - 1].name;
-                    entries = theReader.ReadLine().Split(';');
-                    objectList[id - 1].text = "";
-                    foreach (var item in entries)
-                    {
-                        objectList[id - 1].text += item + "\n\n";
-                    }
+				{	//Debug.Log(line);
+					if (line==(id+1).ToString())
+					{
+						id++;
+						npo=new PointObject(id);
+						line = theReader.ReadLine();
+						npo.name=line;
+						npo.nameWithNumber=id.ToString()+"."+npo.name;
+						if (GameObject.Find(id.ToString())){
+							npo.po_transform=GameObject.Find(id.ToString()).transform;
+						}
+						npo.imagePath = "Objects/"+(id).ToString();
+						objectList[id - 1] = npo;
+					}
+					else
+					{
+						objectList[id - 1].text=objectList[id - 1].text+line+"\n";
+					}
 				}
 			}
 			while (line != null);			   
 			theReader.Close();
+
 		}
-        CameraViewControl.Instance.CreateTextBlockInSearch(FindByName(""));
         //CameraViewControl.Instance.MarkerObject.MarkerVisibility = true;
+		CameraViewControl.Instance.CreateTextBlockInSearch(FindByName(""));
 	}
 
 	private void Update()
@@ -144,7 +159,7 @@ public class MainController : MonoBehaviour {
 						} 
                         else 
                         {
-							gameObject.transform.Translate (-touch.deltaPosition * 3 * GetComponent<Camera> ().orthographicSize/Screen.height);
+							gameObject.transform.Translate (-touch.deltaPosition * 3 * GetComponent<Camera> ().orthographicSize/Screen.height * 1.5f);
 							checkBorders ();
 						}
 						break;
@@ -201,15 +216,20 @@ public class MainController : MonoBehaviour {
 
 	private void LateUpdate()
 	{
-		Vector3 userScreenPosition = Camera.main.WorldToScreenPoint(user.transform.position);
-		CameraViewControl.Instance.MarkerObject.SetMarkerPosition(100f*userScreenPosition.x/Screen.width,100f*userScreenPosition.y/Screen.height);
-		if (currentID != -1) {
-			Vector3 objectScreenPosition = Camera.main.WorldToScreenPoint(objectList[currentID].po_transform.position);
-
-			CameraViewControl.Instance.MiniPanelObject.ChangeMiniPanelPosition(100f*objectScreenPosition.x/Screen.width,100f*objectScreenPosition.y/Screen.height);
-		}
+        checkTranslate();
 	}
 
+    public void checkTranslate()
+    {
+        Vector3 userScreenPosition = Camera.main.WorldToScreenPoint(user.transform.position);
+        CameraViewControl.Instance.MarkerObject.SetMarkerPosition(100f * userScreenPosition.x / Screen.width, 100f * userScreenPosition.y / Screen.height);
+        if (currentID != -1)
+        {
+            Vector3 objectScreenPosition = Camera.main.WorldToScreenPoint(objectList[currentID].po_transform.position);
+
+            CameraViewControl.Instance.MiniPanelObject.ChangeMiniPanelPosition(100f * objectScreenPosition.x / Screen.width, 100f * objectScreenPosition.y / Screen.height);
+        }
+    }
 
 	private void checkBorders(){
 
@@ -260,6 +280,8 @@ public class MainController : MonoBehaviour {
 		for (int i=0; i < objectList.Length; i++) 
         {
 			string name = objectList[i].nameWithNumber.ToLower();
+
+			Debug.Log(name);
 			for (int pos = 0; pos <= name.Length-namepart.Length;pos++)
             {
 				for (int j=0; j < namepart.Length; j++)
@@ -344,7 +366,6 @@ public class MainController : MonoBehaviour {
 		ht.Add ("time",1.25f);		
         ht.Add ("easetype", iTween.EaseType.easeOutCubic);
 		iTween.MoveTo (gameObject,ht);
-
 		if (GetComponent<Camera> ().orthographicSize != Screen.height / 2f) {
 			Hashtable par = new Hashtable();
 			par.Add("from",GetComponent<Camera> ().orthographicSize);
@@ -363,7 +384,6 @@ public class MainController : MonoBehaviour {
             par.Add("from", GetComponent<Camera>().orthographicSize);
             par.Add("to", GetComponent<Camera>().orthographicSize * 0.6f < Screen.height / 2f ? Screen.height / 2f : GetComponent<Camera>().orthographicSize * 0.6f);
             par.Add("time", 0.5f);
-            //ht.Add ("easetype", iTween.EaseType.easeOutCubic);
             par.Add("onupdate", "SetOrthoSize");
             iTween.ValueTo(gameObject, par);
         }

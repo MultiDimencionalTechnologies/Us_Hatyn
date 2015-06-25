@@ -112,8 +112,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\MVVM\View\Resources\Fonts\1_ARIALSA.ttf" />
+    <Resource Include="Assets\MVVM\View\Resources\Fonts\arialbd.ttf" />
     <Resource Include="Assets\MVVM\View\Resources\Images\aeb.jpg" />
+    <Resource Include="Assets\MVVM\View\Resources\Images\hist_0.jpg" />
+    <Resource Include="Assets\MVVM\View\Resources\Images\hist_1.jpg" />
+    <Resource Include="Assets\MVVM\View\Resources\Images\hist_2.jpg" />
+    <Resource Include="Assets\MVVM\View\Resources\Images\hist_3.jpg" />
     <Resource Include="Assets\MVVM\View\Resources\Images\MDTLOGO.png" />
+    <Resource Include="Assets\MVVM\View\Resources\Images\Top.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.5\Microsoft.Expression.Blend.WPF.targets" />

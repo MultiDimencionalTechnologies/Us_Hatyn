@@ -1,7 +1,13 @@
 Assets/MVVM/View/CameraViewControl.xaml
 Assets/MVVM/View/Resources/Resources.xaml
 Assets/MVVM/View/Resources/Fonts/1_ARIALSA.ttf
+Assets/MVVM/View/Resources/Fonts/arialbd.ttf
 Assets/MVVM/View/Resources/Images/aeb.jpg
+Assets/MVVM/View/Resources/Images/hist_0.jpg
+Assets/MVVM/View/Resources/Images/hist_1.jpg
+Assets/MVVM/View/Resources/Images/hist_2.jpg
+Assets/MVVM/View/Resources/Images/hist_3.jpg
 Assets/MVVM/View/Resources/Images/MDTLOGO.png
 Assets/MVVM/View/Resources/Images/logo_mar.png
 Assets/MVVM/View/Resources/Images/aeb.png
+Assets/MVVM/View/Resources/Images/Top.jpg

@@ -21,6 +21,7 @@ namespace Mo_2015_06_21_UsHatyn
         public class MiniPanel
         {
             public bool isMiniPanelVisible = false;
+            
             public void ShowMiniPanel(float percentX, float percentY, string titleText, string imageSource, string panelText)
             {
                 HideMiniPanel();
@@ -73,6 +74,7 @@ namespace Mo_2015_06_21_UsHatyn
 
                 isMiniPanelVisible = true;
             }
+            
             public void HideMiniPanel()
             {
                 if (CameraViewControl.Instance.leftTopAboutPanelGrid.Visibility == Visibility.Visible)
@@ -93,6 +95,8 @@ namespace Mo_2015_06_21_UsHatyn
                 }
                 isMiniPanelVisible = false;
             }
+
+            
             public void ChangeMiniPanelPosition(float percentX, float percentY)
             {
                 if (CameraViewControl.Instance.leftTopAboutPanelGrid.Visibility == Visibility.Hidden &&
@@ -126,7 +130,7 @@ namespace Mo_2015_06_21_UsHatyn
                     return;
                 }
             }
-
+            
             private void leftTopShowMiniPanel()
             {
                 CameraViewControl.Instance.leftTopAboutPanelShow.Begin();
@@ -246,7 +250,7 @@ namespace Mo_2015_06_21_UsHatyn
                 CameraViewControl.Instance.rightBottomAboutPanelGrid.Width = 1280f * percentX / 100f - CameraViewControl.Instance.rightBottom.Width + 17;
                 CameraViewControl.Instance.rightBottomAboutPanelGrid.Height = 800f - (800f * percentY / 100f + CameraViewControl.Instance.rightBottom.Height + 17);
             }
-
+            
             private int lengthOfMaxWord(string text)
             {
                 int max = 0;
@@ -362,6 +366,7 @@ namespace Mo_2015_06_21_UsHatyn
         private MainController mainController = Camera.main.GetComponent<MainController>();
 
         private bool is27JuneVisible = true;
+        private UnityEngine.Vector3 objectScreenPosition;
 
         public void OnPostInit()
         {
@@ -582,10 +587,9 @@ namespace Mo_2015_06_21_UsHatyn
 
         void searchTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            Debug.Log("LostKeyboard Focus");
             if (mainController.FindByName(searchTextBox.Text).Count() == 1)
             {
-                mainController.TranslatetoObject(((TextBox)sender).Text);
+                mainController.TranslatetoObject(searchTextBox.Text);
             }
         }
 
@@ -687,6 +691,10 @@ namespace Mo_2015_06_21_UsHatyn
 
         void rightMiniPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if ((mainController.currentID >= 18 && mainController.currentID <=21) || mainController.currentID == 14)
+            {
+                return;
+            }
             if (!isInfoPanelShow && AppState.InAppState != AppState.EAppState.Menu && AppState.InAppState != AppState.EAppState.Search)
             {
                 smallLeftPanelShow.Begin();
@@ -712,6 +720,10 @@ namespace Mo_2015_06_21_UsHatyn
 
         void leftMiniPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if ((mainController.currentID >= 18 && mainController.currentID <= 21) || mainController.currentID == 14)
+            {
+                return;
+            }
             if (!isInfoPanelShow)
             {
                 smallRightPanelShow.Begin();

@@ -15,37 +15,41 @@ public class GPSManager : MonoBehaviour {
     private MainController mController;
     private Vector3 buff;
 
-    private void checkGPS()
+    private IEnumerator checkGPS()
     {
-        if (Input.location.isEnabledByUser)
+        for (; ; )
         {
-            (CameraViewControl.Instance.FindResource("GPSHide") as Noesis.Storyboard).Begin();
-            (CameraViewControl.Instance.FindResource("CantFindHide") as Noesis.Storyboard).Begin();
-            (CameraViewControl.Instance.FindResource("TooFarHide") as Noesis.Storyboard).Begin();
-            isFinding = true;
-            while (Input.location.status == LocationServiceStatus.Initializing)
+            if (Input.location.isEnabledByUser)
             {
-                if (isFinding)
+                (CameraViewControl.Instance.FindResource("GPSHide") as Noesis.Storyboard).Begin();
+                (CameraViewControl.Instance.FindResource("CantFindHide") as Noesis.Storyboard).Begin();
+                (CameraViewControl.Instance.FindResource("TooFarHide") as Noesis.Storyboard).Begin();
+                isFinding = true;
+                while (Input.location.status == LocationServiceStatus.Initializing)
                 {
-                    (CameraViewControl.Instance.FindResource("FindingShow") as Noesis.Storyboard).Begin();
-                    isFinding = false;
+                    if (isFinding)
+                    {
+                        (CameraViewControl.Instance.FindResource("FindingShow") as Noesis.Storyboard).Begin();
+                        isFinding = false;
+                    }
+                }
+                if (Input.location.status == LocationServiceStatus.Running)
+                {
+                    (CameraViewControl.Instance.FindResource("FindingHide") as Noesis.Storyboard).Begin();
+                    isGPSInit = true;
+                    RetrieveGPSData();
+                }
+                if (Input.location.status == LocationServiceStatus.Failed)
+                {
+                    (CameraViewControl.Instance.FindResource("CantFindShow") as Noesis.Storyboard).Begin();
                 }
             }
-            if (Input.location.status == LocationServiceStatus.Running)
+            else
             {
-                (CameraViewControl.Instance.FindResource("FindingHide") as Noesis.Storyboard).Begin();
-                isGPSInit = true;
-                RetrieveGPSData();
+                (CameraViewControl.Instance.FindResource("GPSShow") as Noesis.Storyboard).Begin();
+                isGPSInit = false;
             }
-            if (Input.location.status == LocationServiceStatus.Failed)
-            {
-                (CameraViewControl.Instance.FindResource("CantFindShow") as Noesis.Storyboard).Begin();
-            }
-        }
-        else
-        {
-            (CameraViewControl.Instance.FindResource("GPSShow") as Noesis.Storyboard).Begin();
-            isGPSInit = false;
+            yield return new WaitForSeconds(2);
         }
     }
     private void RetrieveGPSData()
@@ -70,7 +74,6 @@ public class GPSManager : MonoBehaviour {
                 mController.user.Track(mController.objectList[mController.currentID].po_transform);
             }
         }
-        //(CameraViewControl.Instance.FindName("DebugTextBlock") as Noesis.TextBlock).Text = "X: " + loc.longitude.ToString() + "//Y: " + loc.latitude.ToString();
     }
  	// Use this for initialization
 	void Start () 
@@ -78,7 +81,7 @@ public class GPSManager : MonoBehaviour {
         mController = Camera.main.GetComponent<MainController>();
 #if !UNITY_STANDALONE
         Input.location.Start(3f, 3f);
-        InvokeRepeating("checkGPS", 1f, 1f);
+        StartCoroutine("checkGPS");
 #endif
 	}
 	
